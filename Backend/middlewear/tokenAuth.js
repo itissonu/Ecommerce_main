@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
 
 exports.isAuthenticate = asyncawaitError(async (req, res, next) => {
-
+//console.log(req.cookies)
   const { token } = req.cookies;
  // console.log(token)
   if (!token) {
@@ -28,3 +28,4 @@ exports.isAuthorise = (...roles) => {
     next();
   };
 };
+
