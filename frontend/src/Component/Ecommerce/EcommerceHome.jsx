@@ -1,8 +1,16 @@
 import React from 'react'
+import { Header } from './Header'
 
 function EcommerceHome() {
   return (
-    <div>EcommerceHome</div>
+   
+      <React.Fragment >
+        <div className=' h-3/4 w-full '>
+    <Header/>
+        </div>
+        
+      </React.Fragment>
+   
   )
 }
 

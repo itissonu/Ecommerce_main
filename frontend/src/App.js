@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 import './App.css';
 import Home from './Component/Admin/Home';
@@ -10,6 +10,7 @@ function App() {
   return (
     <Router>
       <Routes>
+      
         <Route path="/" element={<EcommerceHome/>} />
         <Route path="/admin" element={<Home />} />
         <Route path='/login' element={<Login/>} />
