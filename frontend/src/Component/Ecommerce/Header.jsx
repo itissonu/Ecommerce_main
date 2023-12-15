@@ -12,15 +12,15 @@ import { Link } from 'react-router-dom'
 export const Header = () => {
     return (
         <div className='relative'>
-            <header className=' w-full  fixed top-0'>
+            <header className=' w-full  z-50 fixed top-0'>
 
                 <div className=' w-full  bg-slate-400 p-[4px] flex flex-row justify-center'>
-                <div className=' w-[1200px] bg-slate-400 p-[4px] flex flex-row justify-end'>
-                <img className=' h-3 w-3 mx-2  transition-transform transform hover:scale-110 hover:shadow-lg hover:cursor-pointer' src={insta} alt='img' />
-                    <img className=' h-3 w-3 mx-2  transition-transform transform hover:scale-110 hover:shadow-lg hover:cursor-pointer' src={fb} alt='img' />
-                    <img className=' h-3 w-3 mx-2  transition-transform transform hover:scale-110 hover:shadow-lg hover:cursor-pointer' src={twitter} alt='img' />
-                </div>
-                    
+                    <div className=' w-[1200px] bg-slate-400 p-[4px] flex flex-row justify-end'>
+                        <img className=' h-3 w-3 mx-2  transition-transform transform hover:scale-110 hover:shadow-lg hover:cursor-pointer' src={insta} alt='img' />
+                        <img className=' h-3 w-3 mx-2  transition-transform transform hover:scale-110 hover:shadow-lg hover:cursor-pointer' src={fb} alt='img' />
+                        <img className=' h-3 w-3 mx-2  transition-transform transform hover:scale-110 hover:shadow-lg hover:cursor-pointer' src={twitter} alt='img' />
+                    </div>
+
                 </div>
 
                 <div className='w-full h-20 bg-white border-t-[0.5px] border-gray-500  z-20   shadow-xl  flex justify-center'>
@@ -28,27 +28,33 @@ export const Header = () => {
                         <img className=' mx-3 h-6 w-6 sm:hidden' src={menu} />
                     </div>
                     <div className='flex items-center justify-between w-[1200px] '>
-                        <div className='flex '>
-                            <div className='flex items-center justify-center mx-3 p-2 hover:cursor-pointer'> <span>Ecommerce.</span>
+                        <div className='flex h-full items-center'>
+                            <div className='flex items-center justify-center mx-3 p-2 hover:cursor-pointer'> <span className='text-xl'>Ecommerce.</span>
                             </div>
-                            <div className='flex items-center justify-center mx-3 p-2 hover:cursor-pointer'>
-                                <li className=' list-none'>  <a> Men</a>  </li>
+                            <div className=' hidden sm:flex items-center justify-center mx-3 p-2 hover:cursor-pointer h-full  hover:border-b-4 border-yellow-400'>
+                                <li className=' text-xl font-mono font-extrabold  text-gray-800 list-none'>  <a> Men</a>  </li>
                             </div>
-                            <div className='flex items-center justify-center mx-3 p-2 hover:cursor-pointer'>
-                                <li className=' list-none'>  <a> Women</a>  </li>
+                            <div className='hidden sm:flex items-center justify-center mx-3 p-2 hover:cursor-pointer h-full  hover:border-b-4 border-yellow-400'>
+                                <li className=' text-xl font-mono font-extrabold  text-gray-800 list-none'>  <a> Women</a>  </li>
                             </div>
-                            <div className='flex items-center justify-center mx-3 p-2 hover:cursor-pointer'>
-                                <li className=' list-none'>  <a> Shoes</a>  </li>
+                            <div className=' hidden sm:flex items-center justify-center mx-3 p-2 hover:cursor-pointer h-full  hover:border-b-4 border-yellow-400'>
+                                <li className='text-xl font-mono font-extrabold  text-gray-800 list-none'>  <a> Shoes</a>  </li>
                             </div>
                         </div>
 
-                        <div className='flex'>
+                        <div className='flex justify-center items-center h-[100%]  '>
                             <div className='flex relative'>
-                                <input className=' p-2 outline-none  w-56  bg-[#eaeaea] border border-transparent ' type='text' placeholder='Search for products'/>
-                                <img className='h-5 w-5 absolute top-[12px] left-[-1.75rem] mr-2' src={search}/>
+                                <input className=' p-2 outline-none  w-56  bg-[#eaeaea] border border-transparent ' type='text' placeholder='Search for products' />
+                                <img className='h-6 w-6 absolute top-[12px] left-[-1.75rem] mr-2' src={search} />
                             </div>
-                            <img className='h-6 w-6 mx-3  transition-transform transform hover:scale-110 hover:shadow-lg hover:cursor-pointer' src={wishlist}/>
-                            <img className='h-6 w-6 mx-3  transition-transform transform hover:scale-110 hover:shadow-lg hover:cursor-pointer' src={cart}/>
+                            <div className='relative flex h-full items-center hover:border-b-4 border-yellow-400'>
+                                <span className='flex absolute top-[1.25rem] rounded-[100%] z-10 bg-red-600 h-3 w-3 text-white font-extrabold  text-[9px] justify-center items-center right-2'>5</span>
+                                <img className='h-6 w-6 mx-3  transition-transform transform hover:scale-110 hover:shadow-lg hover:cursor-pointer' src={wishlist} />
+                            </div>
+                            <div className='relative flex h-full items-center hover:border-b-4 border-yellow-400 '>
+                                <span className='flex absolute top-[1.25rem]  rounded-[100%] z-10 bg-red-600 h-3 w-3 text-white font-extrabold  text-[9px] justify-center items-center right-2'>3</span>
+                                <img className='h-6 w-6 mx-3  transition-transform transform hover:scale-110 hover:shadow-lg hover:cursor-pointer' src={cart} />
+                            </div>
                             <button>Login</button>
                         </div>
                     </div>
