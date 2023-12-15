@@ -6,7 +6,7 @@ function EcommerceHome() {
    
       <React.Fragment >
         <div className=' h-3/4 w-full '>
-    <Header/>
+            <Header/>
         </div>
         
       </React.Fragment>

@@ -62,6 +62,7 @@ const userLogin = asyncawaitError(async (req, res, next) => {
     })
 });
 
+
 const userLogout = asyncawaitError(async (req, res, next) => {
     res.cookie("token", null, {
         expires: new Date(Date.now()),

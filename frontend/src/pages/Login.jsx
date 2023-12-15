@@ -30,6 +30,7 @@ function Login() {
       ...prev, [e.target.name]: e.target.value
 
     }));
+    console.log(userInfo);
 
   }
   const hanleSubmit = async (e) => {
@@ -41,7 +42,7 @@ function Login() {
       const resdata = await axios.post('http://localhost:8001/app/auth/login', userInfo,{
         withCredentials: true,
       });
-     // console.log(resdata);
+      console.log(resdata);
       tostifySuccess(resdata.data.message);
 
       const userId = resdata.data.role;

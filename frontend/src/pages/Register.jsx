@@ -28,7 +28,7 @@ function Register() {
     }
     ));
   };
-
+ console.log(userInfo)
 
   const hanleSubmit = async (event) => {
     event.preventDefault();
@@ -49,7 +49,7 @@ function Register() {
         const { url } = uploadRes.data;
 
         photo = url;
-
+ console.log(photo);
         setLoading(false);
 
         const userdetails = {
@@ -60,6 +60,7 @@ function Register() {
         const userregister = await axios.post("http://localhost:8001/app/auth/register", userdetails, {
           withCredentials: true,
         });
+        console.log(userregister);
         navigate('/login');
        
         
