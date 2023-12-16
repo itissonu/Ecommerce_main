@@ -29,17 +29,17 @@ export const Footer = () => {
                         <h2 className="text-lg  text-yellow-400 font-semibold mb-2">Social Links</h2>
                         <ul className="flex space-x-2">
                             <li>
-                                <a href="#" className="text-blue-500">
+                                <a href="#d" className="text-blue-500">
                                     Facebook
                                 </a>
                             </li>
                             <li>
-                                <a href="#" className="text-blue-500">
+                                <a href="#d" className="text-blue-500">
                                     Twitter
                                 </a>
                             </li>
                             <li>
-                                <a href="#" className="text-blue-500">
+                                <a href="#d" className="text-blue-500">
                                     Instagram
                                 </a>
                             </li>
