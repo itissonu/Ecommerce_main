@@ -26,26 +26,38 @@ const getallproducts = asyncawaitError(async (req, res, next) => {
 
 
     if (req.query.category) {
-        query.category = req.query.category;
+        const categoriesArray = req.query.category.split(',');
+        const categoriesRegexArray = categoriesArray.map(category => new RegExp(category, 'i'));
+        query.category = { $in: categoriesRegexArray };
+        
     }
-
 
     if (req.query.size) {
-        query.size = req.query.size;
+        const sizesArray = req.query.size.split(',');
+    const sizesRegexArray = sizesArray.map(size => new RegExp(size, 'i'));
+    query.size = { $in: sizesRegexArray };
+
     }
 
-
     if (req.query.colors) {
-        query.colors = req.query.colors;
+        const colorsArray = req.query.colors.split(',');
+        // Convert each color to a case-insensitive regex
+        const colorsRegexArray = colorsArray.map(color => new RegExp(color, 'i'));
+        // Use $in to match any of the specified colors
+        query.colors = { $in: colorsRegexArray };
     }
 
     if (req.query.ageCategory) {
-        query.ageCategory = req.query.ageCategory;
+            
+        const categoryRegex = new RegExp(req.query.ageCategory, 'i');
+        query.ageCategory = { $regex: categoryRegex };
     }
 
 
     if (req.query.brand) {
-        query.brand = req.query.brand;
+        const brandsArray = req.query.brand.split(',');
+        const brandsRegexArray = brandsArray.map(brand => new RegExp(brand, 'i'));
+        query.brand = { $in: brandsRegexArray };
     }
 
     if (req.query.minPrice && req.query.maxPrice) {
@@ -62,20 +74,20 @@ const getallproducts = asyncawaitError(async (req, res, next) => {
             { category: searchRegex }
         ];
     }
-     // Pagination
-     const page = parseInt(req.query.page) || 1;
-     const limit = parseInt(req.query.limit) || 10;
-     const skip = (page - 1) * limit;
- 
+    // Pagination
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
     //console.log(query)
     const products = await Product.find(query).skip(skip)
-    .limit(limit);;
-    
-    if (products.length===0) {
+        .limit(limit);;
+
+    if (products.length === 0) {
         return next(new createError("no such product found", 401))
     }
 
-    res.status(200).json(products);  
+    res.status(200).json(products);
 
 });
 
@@ -266,4 +278,3 @@ module.exports = {
 
 
 
-  
