@@ -7,16 +7,6 @@ import { Footer } from './Footer'
 
 function EcommerceHome() {
   return (
-<<<<<<< HEAD
-   
-      <React.Fragment >
-        <div className=' h-3/4 w-full '>
-            <Header/>
-        </div>
-        
-      </React.Fragment>
-   
-=======
 
 
     <div className='  h-full w-full flex flex-col '>
@@ -36,7 +26,6 @@ function EcommerceHome() {
 
 
 
->>>>>>> 2a7ed10f9ca144957d16adf1e27628b8d636cdfb
   )
 }
 

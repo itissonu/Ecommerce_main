@@ -95,7 +95,7 @@ export const Model = ({ isOpen, setOpen }) => {
   return (
     <div className='fixed top-0 left-0 flex justify-center items-center w-full h-full bg-gray-500 bg-opacity-50 z-50'>
       <Toaster />
-      <div className='bg-white p-8 rounded shadow-xl  w-1/3'>
+      <div className='bg-white p-8 rounded shadow-xl h-auto w-[40.33%]'>
         <h2 className=' text-2xl text-center m-2'>Add A Product</h2>
         <img className='  w-5 h-5 relative top-[-67px] right-[-12px] float-right hover:cursor-pointer' src={delImage} onClick={() => setOpen(false)} alt='deletebutton' />
         <form>
@@ -105,15 +105,15 @@ export const Model = ({ isOpen, setOpen }) => {
               <input type='file' name='photos' id='photos' multiple onChange={(e) => setFiles(e.target.files)} />
             </div>
             <div className='flex flex-col'>
-              <span className='block'>Name</span>
+              <span className='block ml-[10px]'>Name</span>
               <input className=' outline-none border-b-2 border-slate-500 m-2' type='text' name='name' required onChange={handleChange} />
-              <span className='block'>Age Category</span>
+              <span className='block ml-[10px]'>Age Category</span>
               <select className=' outline-none border-2 border-slate-500 m-2' type='text' name='ageCategory' onChange={handleChange} value={ProductInfo.ageCategory} >
                 {ageCategories.map((type, index) => (
                   <option key={index} value={type}>{type}</option>
                 ))}
               </select>
-              <span className='block'>Category</span>
+              <span className='block ml-[10px]'>Category</span>
               <select className=' outline-none border-2 border-slate-500 m-2' type='text' name='category' required onChange={handleChange} value={ProductInfo.category} >
                 {clothingCategories.map((type, index) => (
                   <option key={index} value={type}>{type}</option>
@@ -158,8 +158,8 @@ export const Model = ({ isOpen, setOpen }) => {
           </div>
           <div className='flex flex-row justify-between'>
             <div className='flex flex-row justify-center items-center'>
-              <span >color</span>
-              <select className=' outline-none p-2 h-12  border-2 border-slate-500 m-2' type='text' name='colors' onChange={handleChange} value={ProductInfo.colors} >
+              <span  className=''>color</span>
+              <select className=' outline-none p-2 h-12 w-32  border-2 border-slate-500 m-2' type='text' name='colors' onChange={handleChange} value={ProductInfo.colors} >
                 {colorOptions.map((type, index) => (
                   <option key={index} value={type}>{type}</option>
                 ))}
