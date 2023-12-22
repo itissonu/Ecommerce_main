@@ -15,7 +15,7 @@ const createNewproduct = asyncawaitError(async (req, res, next) => {
     res.status(201).json({
         success: true,
         newProduct,
-        messege: "product added successfully"
+        message: "product added successfully"
     })
 
 });
@@ -121,7 +121,7 @@ const updateProduct = asyncawaitError(async (req, res, next) => {
 
     res.status(201).json({
         success: true,
-        messege: "product updated successfully"
+        message: "product updated successfully"
     })
 });
 
@@ -151,7 +151,7 @@ const getProductDetails = asyncawaitError(async (req, res, next) => {
     res.status(201).json({
         success: true,
         product,
-        messege: "product found successfully"
+        message: "product found successfully"
     })
 
 });

@@ -7,6 +7,14 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import EcommerceHome from './Component/Ecommerce/EcommerceHome';
 import { Productspage } from './Component/Ecommerce/product/Productspage';
+import { Cart } from './Component/Ecommerce/cart/Cart';
+import { AddAddress } from './Component/Ecommerce/cart/AddAddress';
+import  Payment  from './Component/Ecommerce/cart/Payment';
+import { MyOrders } from './pages/MyOrders';
+import { ForgotPassword } from './pages/ForgotPassword';
+import { ResetPassword } from './pages/ResetPassword';
+import { MyProfile } from './pages/MyProfile';
+import { Wishlist } from './Component/Ecommerce/cart/Wishlist';
 function App() {
   return (
     <Router>
@@ -15,9 +23,17 @@ function App() {
         <Route path="/" element={<EcommerceHome/>} />
         <Route path="/admin" element={<Home />} />
         <Route path='/login' element={<Login/>} />
+        <Route path='/password/forgot' element={<ForgotPassword/>} />
+        <Route path='/password/reset/:token' element={<ResetPassword/>} />
         <Route path='/register' element={<Register/>} />
-        <Route path="/productadmin" element={<Product/>} />
-        <Route path='/products' element={<Productspage/>}/>
+        <Route path="/admin/productadmin" element={<Product/>} />
+        <Route path='/user/products' element={<Productspage/>}/>
+        <Route path='/user/cart' element={<Cart/>} />
+        <Route path='/user/wishlist' element={<Wishlist/>} />
+        <Route path='/user/deliver-address' element={<AddAddress/>} />
+        <Route path='/user/payment' element={<Payment/>} />
+        <Route path='/user/myorders' element={<MyOrders/>} />
+        <Route path='/user/myprofile' element={<MyProfile/>} />
       </Routes>
     </Router>
   );
