@@ -26,8 +26,10 @@ export const Category = () => {
 
   return (
     <div className=' mt-3 h-max w-full flex  flex-wrap justify-center flex-col '>
-      <div  className='mt-2 flex justify-center bg-red-700 text-white font-serif font-extrabold'><h2 className='p-4 bg-red-700 text-white font-serif font-extrabold'>  SHOP BY CATEGORY</h2></div>
-      
+      <div className='mt-2 flex justify-center bg-red-700 text-white font-serif font-extrabold'>
+        <h2 className='p-4 bg-red-700 text-white font-serif font-extrabold'>  SHOP BY CATEGORY</h2>
+      </div>
+
 
       <div className=' mt-3 h-max w-full flex  flex-wrap justify-center  '>
 

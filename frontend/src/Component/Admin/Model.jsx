@@ -5,51 +5,54 @@ import axios from 'axios'
 import { toast } from 'react-toastify';
 import Toaster from '../toast/Toast';
 
-export const Model = ({ isOpen, setOpen }) => {
+export const Model = ({ isOpen, setOpen ,tostifySuccess }) => {
   const ageCategories = ["select", "Men", "Women", "Boys", "Girls", "Infants", "Toddlers"];
   const clothingCategories = ["select", "T-Shirts", "Shirts", "Jeans", "Dresses", "Sweaters", "Jackets", "Shorts", "Skirts", "Activewear", "Suits", "Socks", "Accessories", "Shoes"];
   const sizeOptions = ["select", 'S', 'M', 'L', 'XS', 'XL'];
   const colorOptions = ["select", 'red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'brown', 'gray', 'black', 'white', 'cyan'];
-  const brandOptions = ["select", 'Nike', 'Adidas', 'Puma', 'Levi\'s', 'Gap', 'H&M', 'Zara', 'Calvin Klein', 'Tommy Hilfiger', 'Under Armour', 'Fila', 'Converse', 'Vans', 'Reebok' ];
+  const brandOptions = ["select", 'Nike', 'Adidas', 'Puma', 'Levi\'s', 'Gap', 'H&M', 'Zara', 'Calvin Klein', 'Tommy Hilfiger', 'Under Armour', 'Fila', 'Converse', 'Vans', 'Reebok'];
 
 
   const [files, setFiles] = useState();
   const [ProductInfo, setInfo] = useState({})
+  const [load, setLoad] = useState(false);
 
   const handleChange = async (e) => {
     setInfo((prev) => (
       { ...prev, [e.target.name]: e.target.value }));
   };
-  console.log(ProductInfo);
+ // console.log(ProductInfo);
 
-  const tostifySuccess = (msg) => {
-    toast.success(msg, {
-      position: "top-left",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
-  }
-  const tostifyerror = (msg) => {
-    toast.error(msg, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
-  }
+  // const tostifySuccess = (msg) => {
+  //   toast.success(msg, {
+  //     position: "top-left",
+  //     autoClose: 3000,
+  //     hideProgressBar: false,
+  //     closeOnClick: true,
+  //     pauseOnHover: true,
+  //     draggable: true,
+  //     progress: undefined,
+  //     theme: "light",
+  //   });
+  // }
+  // const tostifyerror = (msg) => {
+  //   toast.error(msg, {
+  //     position: "top-right",
+  //     autoClose: 5000,
+  //     hideProgressBar: false,
+  //     closeOnClick: true,
+  //     pauseOnHover: true,
+  //     draggable: true,
+  //     progress: undefined,
+  //     theme: "light",
+  //   });
+  // }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      setLoad(true);
+
       const list = await Promise.all(
         Object.values(files).map(async (file) => {
           const data = new FormData();
@@ -59,13 +62,12 @@ export const Model = ({ isOpen, setOpen }) => {
             "https://api.cloudinary.com/v1_1/dbsonu270/image/upload",
             data
           );
-
           const { url } = uploadRes.data;
           return { url };
         })
       );
       console.log(list)
-
+ 
       const newProduct = {
         ...ProductInfo,
         images: list,
@@ -73,20 +75,20 @@ export const Model = ({ isOpen, setOpen }) => {
         size: [ProductInfo.size],
         price: parseFloat(ProductInfo.price),
         Stock: parseInt(ProductInfo.stock),
-
       };
-      // console.log(newProduct);
 
       const resdata = await axios.post("http://localhost:8001/app/product/admin/newProduct", newProduct, {
         withCredentials: true,
-      });
-      const message = resdata.data.messege;
-      tostifySuccess(message);
+      });   
+     
+      const message = resdata.data.message;
+      setLoad(false);
       setOpen(false)
+      tostifySuccess(message);
+     // setOpen(false)
     }
     catch (err) {
-      tostifyerror(err.response.data.message);
-
+     // tostifyerror(err.response.data.message);
       console.log(err)
     }
 
@@ -94,11 +96,11 @@ export const Model = ({ isOpen, setOpen }) => {
 
   return (
     <div className='fixed top-0 left-0 flex justify-center items-center w-full h-full bg-gray-500 bg-opacity-50 z-50'>
-      <Toaster />
+      {/* <Toaster /> */}
       <div className='bg-white p-8 rounded shadow-xl  w-1/3'>
         <h2 className=' text-2xl text-center m-2'>Add A Product</h2>
         <img className='  w-5 h-5 relative top-[-67px] right-[-12px] float-right hover:cursor-pointer' src={delImage} onClick={() => setOpen(false)} alt='deletebutton' />
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className=' flex'>
             <div>
               <img className='  w-28  h-28' src={img} alt='img' />
@@ -175,7 +177,7 @@ export const Model = ({ isOpen, setOpen }) => {
             </div>
           </div>
           <div className=' items-center justify-center flex mt-3'>
-            <button type='submit' className=' align-middle w-24 hover:cursor-pointer  hover:bg-cyan-400  font-bold h-12 p-1  rounded-md bg-red-400 text-amber-50 shadow-2xl' onClick={handleSubmit}> Add</button>
+            <button type='submit' className=' justify-center items-center flex w-24 hover:cursor-pointer  hover:bg-cyan-400  font-bold h-12 p-1  rounded-md bg-[#e93d67] text-amber-50 shadow-2xl ' >{load ? <div className='w-7 h-7 rounded-full border-t-1 border-b-4 border-dashed border-white animate-spin'></div> : 'Register'}</button>
           </div>
         </form>
       </div>

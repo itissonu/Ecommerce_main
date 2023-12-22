@@ -3,7 +3,7 @@ import React from 'react'
 export const Footer = () => {
     return (
         <div className='w-full  mt-5 bg-black h-full flex justify-center items-center'>
-            <div className='h-[75%] w-[75%]  flex flex-col justify-between border-b-2 border-white'>
+            <div className='h-[75%] w-[75%]  flex flex-col justify-between   border-white'>
                 <div className="flex justify-between space-x-8 p-4">
 
                     <div  className='text-white'>
@@ -81,7 +81,7 @@ export const Footer = () => {
                         </ul>
                     </div>
                 </div>
-                <h1 className=' text-center text-white'> &copy; 2023 Ecommerce. All Rights Reserved.</h1>
+                <h1 className=' text-center m-3 text-white'> &copy; 2023 Ecommerce. All Rights Reserved.</h1>
             </div>
 
 

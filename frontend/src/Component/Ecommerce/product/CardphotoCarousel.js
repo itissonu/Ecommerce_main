@@ -19,16 +19,17 @@ const CardCarousel = ({img}) => {
         slidesToScroll: 1,
         autoplay: true,          // Enable autoplay
         autoplaySpeed: 2000,
+      
      
     };
    
 
     return (
         <div className='carousel-container' >
-        <Slider {...settings} className='!flex z-0 !flex-row !justify-center !items-center h-[100%] w-[19rem] z-13 ' >
+        <Slider {...settings} className='!flex z-9 !flex-row !justify-center !items-center h-[100%] w-[19rem] z-33 ' >
         {img.map((photo,i)=>(
             <div key={photo.id} className='!flex justify-center items-center !flex-row'>
-            <img className=' h-[287px] rounded-[0.75rem] w-[287px]' src={photo.url} />{console.log(photo.url)}
+            <img className=' h-[289px] rounded-[0.75rem] w-[287px]' src={photo.url} />{console.log(photo.url)}
             
 
             </div>
