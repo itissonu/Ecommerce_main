@@ -39,14 +39,14 @@ const Carousel = () => {
     };
 
     return (
-        <Slider {...settings} className='!flex z-0 !flex-row !justify-center !items-center h-[450px]  mt-32 mb-4' >
-            <div className='!flex !justify-between'>
-                <img className=' h-[400px] w-[400px]' src={Jackets} />
-                <img className=' h-[400px] w-[400px]' src={Shirts} />
-                <img className=' h-[400px] w-[400px]' src={Jeans} />
+        <Slider {...settings} className='!flex z-0 !flex-row !justify-center !items-center h-[450px]  mt-[10rem] mb-4' >
+            <div className='!flex justify-center '>
+                <img className=' h-[400px] w-[400px] mx-8' src="https://images.bewakoof.com/t640/men-s-black-mind-hunter-graphic-printed-oversized-t-shirt-628041-1701081432-1.jpg" />
+                <img className=' h-[400px] w-[400px] mx-8' src='https://images.bewakoof.com/t640/men-s-blue-mind-hunter-graphic-printed-oversized-t-shirt-628033-1701081976-1.jpg' />
+                <img className=' h-[400px] w-[400px] mx-8' src="https://images.bewakoof.com/t640/men-black-beast-within-graphic-printed-oversized-t-shirt-628234-1701260274-1.jpg" />
             </div>
             <div className='!flex justify-center'>
-                <img className=' h-[400px] w-[400px]' src={Sweaters} />
+                <img className=' h-[400px] w-[400px]' src='https://images.bewakoof.com/t640/men-s-blue-mind-hunter-graphic-printed-oversized-t-shirt-628033-1701081976-1.jpg' />
             </div>
             <div className='!flex justify-center'>
                 <img className=' h-[400px] w-[400px]' src={Shirts} />
