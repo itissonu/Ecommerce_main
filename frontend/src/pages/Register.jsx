@@ -13,14 +13,14 @@ import { useNavigate } from 'react-router-dom'
 
 function Register() {
 
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
-  const[err,setError]=useState('')
+  const [err, setError] = useState('')
   const [loading, setLoading] = useState(false);
   const [pass, setPass] = useState(true);
   const [file, setFile] = useState(null);
   const [userInfo, setUserInfo] = useState('');
- 
+
   const handleChange = async (e) => {
     setUserInfo((previous) => ({
       ...previous,
@@ -56,19 +56,19 @@ function Register() {
           ...userInfo,
           profilePhoto: photo
         }
-        
+
         const userregister = await axios.post("http://localhost:8001/app/auth/register", userdetails, {
           withCredentials: true,
         });
         console.log(userregister);
         navigate('/login');
-       
-        
+
+
       }
     } catch (error) {
       setError(error.response.data.message);
       console.log(err)
-     
+
       console.log(error);
     }
 
@@ -77,14 +77,14 @@ function Register() {
 
 
   return (
-    <div className='flex justify-center items-center  h-screen w-full  bg-slate-200 border-t-4 border-yellow-500' >
+    <div className='flex justify-center items-center  h-screen w-full  bg-slate-100 border-t-4 border-yellow-500' >
       <img className=' absolute top-0 left-0 ' src={img1} alt='img1' />
       <img className=' absolute bottom-0 right-0 w-64 h-60' src={img2} alt='img1' />
-      <div className=' h-3/4  w-1/3 max-w-md  bg-white  border-t-8 border-yellow-500 z-10'>
-        <form className=' h-full w-full bg-white flex flex-col  items-center '>
+      <div className=' h-3/4  w-1/3 max-w-md  bg-white  border-t-8 border-yellow-600 z-10'>
+        <form className=' h-full w-full bg-white flex flex-col shadow-lg rounded-sm items-center '>
           <div className='flex flex-col justify-center items-center'>
             <img className=' m-2' src={profile} alt='img' />
-            <img className=' m-2' src={avatar} alt='avatar' />
+            {/* <img className=' m-2' src={avatar} alt='avatar' /> */}
             <input type='file' className="cursor-pointer mx-3  ml-52 appearance-none bg-transparent border-none text-white p-2 rounded-md border-2 border-blue-500 hover:border-blue-700 focus:border-blue-700 focus:outline-none" accept="image/*"
               onChange={(e) => setFile(e.target.files[0])} />
           </div>

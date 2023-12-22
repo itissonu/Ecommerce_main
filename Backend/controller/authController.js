@@ -58,7 +58,7 @@ const userLogin = asyncawaitError(async (req, res, next) => {
     }).status(200).json({
         success: true,
         role: user.role,
-        messege: "login success", token,
+        message: "login success", token,
     })
 });
 
@@ -73,25 +73,24 @@ const userLogout = asyncawaitError(async (req, res, next) => {
     })
     res.status(200).json({
         success: true,
-        messege: "logged out",
+        message: "logged out",
     })
 });
 
 const forgotPassword = asyncawaitError(async (req, res, next) => {
 
     const { email } = req.body;
-    const user = await User.findOne({ email: email })
+    const user = await User.findOne({ email: email });
+    console.log(user);
     if (!user) {
         return next(new createError("user not found", 404))
     }
 
     const resetToken = user.getResetPasswordToken();
-    //console.log(resetToken,"ok")
+    
     await user.save({ validateBeforeSave: false });
 
-    const resetPasswordUrl = `${req.protocol}://${req.get(
-        "host"
-    )}/app/auth/password/reset/${resetToken}`;
+    const resetPasswordUrl = `http://localhost:3000/password/reset/${resetToken}`;
     const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this email then, please ignore it.`;
     try {
         await sendEmail({
@@ -142,7 +141,7 @@ const resetPassword = asyncawaitError(async (req, res, next) => {
         sameSite: 'None',
     }).status(200).json({
         success: true,
-        messege: "login success", token,
+        message: "login success", token,
     })
 })
 
