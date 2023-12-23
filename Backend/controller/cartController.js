@@ -76,7 +76,13 @@ const getCartProductst = asyncawaitError(async (req, res, next) => {
         return next(new createError("login please", 401));
     }
     const cartitems = await Cart.find({ userId: req.user.id }).populate("ProductId");
-
+        if(cartitems.length===0){
+            res.status(201).json({
+                success: true,
+                message:"no prodcut found go and shop now", cartitems
+                
+            });
+        }
     if (!cartitems) {
         res.status(200).json({ messege: "Cart is empty go and shop now" });
     }

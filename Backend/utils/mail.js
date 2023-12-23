@@ -7,13 +7,14 @@ const sendEmail = async (options) => {
     service:'gmail',
     secure:true,
     auth: {
-      user: 'ecommercesoumuababu@gmail.com',
-      pass: 'vjkb kymf qlok zvod',
+      user: 'neuzbuddy456@gmail.com',
+      pass: 'tngu kscl iyvb nhce',
     },
   });
-
+//tngu kscl iyvb nhce
+//270db097soumyababu
   const mailOptions = {
-    from:'ecommercesoumuababu@gmail.com',
+    from:'neuzbuddy456@gmail.com',
     to: options.email,
     subject: options.subject,
     text: options.message,

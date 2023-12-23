@@ -6,7 +6,6 @@ import Product from './Component/Admin/Product';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import EcommerceHome from './Component/Ecommerce/EcommerceHome';
-import SingleProduct from './Component/Ecommerce/SingleProduct';
 function App() {
   return (
     <Router>
@@ -15,9 +14,10 @@ function App() {
         <Route path="/" element={<EcommerceHome/>} />
         <Route path="/admin" element={<Home />} />
         <Route path='/login' element={<Login/>} />
+        <Route path='/password/forgot' element={<ForgotPassword/>} />
+        <Route path='/password/reset/:token' element={<ResetPassword/>} />
         <Route path='/register' element={<Register/>} />
         <Route path="/productadmin" element={<Product/>} />
-        <Route path='/singleProduct' element ={<SingleProduct />} />
       </Routes>
     </Router>
   );
