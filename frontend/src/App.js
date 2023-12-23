@@ -6,6 +6,7 @@ import Product from './Component/Admin/Product';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import EcommerceHome from './Component/Ecommerce/EcommerceHome';
+import SingleProduct from './Component/Ecommerce/SingleProduct';
 import { Productspage } from './Component/Ecommerce/product/Productspage';
 import { Cart } from './Component/Ecommerce/cart/Cart';
 import { AddAddress } from './Component/Ecommerce/cart/AddAddress';
@@ -26,6 +27,8 @@ function App() {
         <Route path='/password/forgot' element={<ForgotPassword/>} />
         <Route path='/password/reset/:token' element={<ResetPassword/>} />
         <Route path='/register' element={<Register/>} />
+    
+        <Route path='/singleProduct' element ={<SingleProduct />} />
         <Route path="/admin/productadmin" element={<Product/>} />
         <Route path='/user/products' element={<Productspage/>}/>
         <Route path='/user/cart' element={<Cart/>} />

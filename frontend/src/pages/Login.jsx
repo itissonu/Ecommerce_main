@@ -63,10 +63,10 @@ function Login() {
   return (
     <div>
     <Toaster/>
-      <form>
+      <form onSubmit={hanleSubmit}>
         <input className=' w-full sm:w-80  p-2   border-2  border-slate-500' placeholder='email' type='email' name='email' onChange={handleChange} />
         <input className=' w-full sm:w-80  p-2    border-2  border-slate-500' placeholder='password' type='password ' name='password' onChange={handleChange} />
-        <button className={`hover:cursor-pointer justify-center items-center flex hover:bg-cyan-400 w-28 font-bold h-12 p-1 rounded bg-green-400 text-amber-50 shadow-xl ${loading ? 'animate-pulse' : ''}`} type='submit' onClick={hanleSubmit}>{loading ? <div className='w-7 h-7 rounded-full border-4 border-dashed border-white animate-spin'></div> : 'Register'}</button>
+        <button className={`hover:cursor-pointer justify-center items-center flex hover:bg-cyan-400 w-28 font-bold h-12 p-1 rounded bg-orange-400 text-amber-50 shadow-xl ${loading ? 'animate-pulse' : ''}`} type='submit' onClick={hanleSubmit}>{loading ? <div className='w-8 h-8 rounded-full border-4 border-dashed border-y-4 border-t-transparent animate-spin'></div> : 'Register'}</button>
       </form>
 
     </div>

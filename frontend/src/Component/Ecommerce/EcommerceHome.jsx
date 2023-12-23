@@ -2,7 +2,7 @@ import React from 'react'
 import { Header } from './Header'
 import Carousel from './Carousel'
 import { Category } from './Category'
-import { Loaderproduct } from './Loaderproduct'
+import ProductCardSkeleton, { Loaderproduct } from './Loaderproduct'
 import { Footer } from './Footer'
 import ProductContainer from './product/ProductContainer'
 
@@ -29,6 +29,7 @@ function EcommerceHome() {
 
       <Category />
       <Footer />
+      <ProductCardSkeleton />
 
 
     </div>
