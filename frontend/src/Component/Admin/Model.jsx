@@ -5,7 +5,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify';
 import Toaster from '../toast/Toast';
 
-export const Model = ({ isOpen, setOpen ,tostifySuccess }) => {
+export const Model = ({ isOpen, setOpen, tostifySuccess }) => {
   const ageCategories = ["select", "Men", "Women", "Boys", "Girls", "Infants", "Toddlers"];
   const clothingCategories = ["select", "T-Shirts", "Shirts", "Jeans", "Dresses", "Sweaters", "Jackets", "Shorts", "Skirts", "Activewear", "Suits", "Socks", "Accessories", "Shoes"];
   const sizeOptions = ["select", 'S', 'M', 'L', 'XS', 'XL'];
@@ -21,7 +21,7 @@ export const Model = ({ isOpen, setOpen ,tostifySuccess }) => {
     setInfo((prev) => (
       { ...prev, [e.target.name]: e.target.value }));
   };
- // console.log(ProductInfo);
+  // console.log(ProductInfo);
 
   // const tostifySuccess = (msg) => {
   //   toast.success(msg, {
@@ -67,7 +67,7 @@ export const Model = ({ isOpen, setOpen ,tostifySuccess }) => {
         })
       );
       console.log(list)
- 
+
       const newProduct = {
         ...ProductInfo,
         images: list,
@@ -79,16 +79,16 @@ export const Model = ({ isOpen, setOpen ,tostifySuccess }) => {
 
       const resdata = await axios.post("http://localhost:8001/app/product/admin/newProduct", newProduct, {
         withCredentials: true,
-      });   
-     
+      });
+
       const message = resdata.data.message;
       setLoad(false);
       setOpen(false)
       tostifySuccess(message);
-     // setOpen(false)
+      // setOpen(false)
     }
     catch (err) {
-     // tostifyerror(err.response.data.message);
+      // tostifyerror(err.response.data.message);
       console.log(err)
     }
 
@@ -107,15 +107,15 @@ export const Model = ({ isOpen, setOpen ,tostifySuccess }) => {
               <input type='file' name='photos' id='photos' multiple onChange={(e) => setFiles(e.target.files)} />
             </div>
             <div className='flex flex-col'>
-              <span className='block'>Name</span>
+              <span className='block ml-[10px]'>Name</span>
               <input className=' outline-none border-b-2 border-slate-500 m-2' type='text' name='name' required onChange={handleChange} />
-              <span className='block'>Age Category</span>
+              <span className='block ml-[10px]'>Age Category</span>
               <select className=' outline-none border-2 border-slate-500 m-2' type='text' name='ageCategory' onChange={handleChange} value={ProductInfo.ageCategory} >
                 {ageCategories.map((type, index) => (
                   <option key={index} value={type}>{type}</option>
                 ))}
               </select>
-              <span className='block'>Category</span>
+              <span className='block ml-[10px]'>Category</span>
               <select className=' outline-none border-2 border-slate-500 m-2' type='text' name='category' required onChange={handleChange} value={ProductInfo.category} >
                 {clothingCategories.map((type, index) => (
                   <option key={index} value={type}>{type}</option>
@@ -160,8 +160,8 @@ export const Model = ({ isOpen, setOpen ,tostifySuccess }) => {
           </div>
           <div className='flex flex-row justify-between'>
             <div className='flex flex-row justify-center items-center'>
-              <span >color</span>
-              <select className=' outline-none p-2 h-12  border-2 border-slate-500 m-2' type='text' name='colors' onChange={handleChange} value={ProductInfo.colors} >
+              <span className=''>color</span>
+              <select className=' outline-none p-2 h-12 w-32  border-2 border-slate-500 m-2' type='text' name='colors' onChange={handleChange} value={ProductInfo.colors} >
                 {colorOptions.map((type, index) => (
                   <option key={index} value={type}>{type}</option>
                 ))}

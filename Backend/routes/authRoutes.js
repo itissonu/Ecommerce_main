@@ -13,6 +13,6 @@ router.post('/password/forgot',forgotPassword);
 router.put('/password/reset/:token',resetPassword);
 //router.put('/password/update',updatePassword);
 
-
+ 
 
 module.exports=router;

@@ -24,7 +24,7 @@ const userRegistration = asyncawaitError(async (req, res, next) => {
         expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
         httpOnly: true,
         secure: true,         // Set to true when using HTTPS
-    sameSite: 'None',
+        sameSite: 'None',
     }).status(201).json({
         success: true,
         user: {
@@ -37,7 +37,7 @@ const userRegistration = asyncawaitError(async (req, res, next) => {
 
 
 const userLogin = asyncawaitError(async (req, res, next) => {
-    
+
     const { email, password } = req.body;
     if (!email || !password) {
         return next(new createError("please enter email and password", 400))
@@ -54,7 +54,7 @@ const userLogin = asyncawaitError(async (req, res, next) => {
         expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
         httpOnly: true,
         secure: true,         // Set to true when using HTTPS
-    sameSite: 'None',
+        sameSite: 'None',
     }).status(200).json({
         success: true,
         role: user.role,
@@ -62,12 +62,14 @@ const userLogin = asyncawaitError(async (req, res, next) => {
     })
 });
 
+
+
 const userLogout = asyncawaitError(async (req, res, next) => {
     res.cookie("token", null, {
         expires: new Date(Date.now()),
         httpOnly: true,
         sameSite: 'None',
-        secure: true, 
+        secure: true,
     })
     res.status(200).json({
         success: true,
@@ -136,7 +138,7 @@ const resetPassword = asyncawaitError(async (req, res, next) => {
         expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
         httpOnly: true,
         secure: true,         // Set to true when using HTTPS
-    sameSite: 'None',
+        sameSite: 'None',
     }).status(200).json({
         success: true,
         message: "login success", token,
