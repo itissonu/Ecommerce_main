@@ -29,7 +29,7 @@ const CardCarousel = ({img}) => {
         <Slider {...settings} className='!flex z-9 !flex-row !justify-center !items-center h-[100%] w-[19rem] z-33 ' >
         {img.map((photo,i)=>(
             <div key={photo.id} className='!flex justify-center items-center !flex-row'>
-            <img className=' h-[289px] rounded-[0.75rem] w-[287px]' src={photo.url} />{console.log(photo.url)}
+            <img className=' h-[289px]  w-[287px]' src={photo.url} />{console.log(photo.url)}
             
 
             </div>

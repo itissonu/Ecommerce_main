@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import wishlistimg from '../../../photos/wishlist.png'
 import wishlistred from '../../../photos/redwishlist.png'
 import CardCarousel from './CardphotoCarousel';
+import { IoStar } from "react-icons/io5";
 function ProductContainer() {
     const [hoveredProduct, setHoveredProduct] = useState(null);
     const wishlist = [{
@@ -274,13 +275,13 @@ function ProductContainer() {
             <div className='w-full h-full flex flex-wrap'>
                 {products.map((product, id) => (
                     <div onMouseOver={() => setHoveredProduct(id)}
-                        onMouseOut={() => setHoveredProduct(null)} className='w-[19rem] h-max  justify-center m-2 shadow-xl items-center flex flex-col rounded-[10px]' key={id} >
+                        onMouseOut={() => setHoveredProduct(null)} className='w-[19rem] h-max  justify-center m-2 shadow-xl items-center flex flex-col ' key={id} >
                         <div className=' relative  '>
                             {!(hoveredProduct === id) && <span className={`text-xs border-1 border-gray-400 bg-[black]
                        
                          text-[white] p-1 absolute top-2 left-2 shadow-md `}>{product.brand}</span>}
-                            {/* <img className='h-72 w-72 rounded-[0.75rem]' src={product.images[0].url} /> */}
-                            {(hoveredProduct === id) ? <CardCarousel img={product.images} /> : <img className='h-72 w-72 rounded-[0.50rem]' src={product.images[0].url} />}
+                          <span className='absolute bottom-0 flex  bg-slate-100 items-center m-2 p-1 font-mono text-[12px]'>4.4<IoStar className='h-3 m-1 w-3' /></span>
+                            {(hoveredProduct === id) ? <CardCarousel img={product.images} /> : <img className='h-72 w-72 ' src={product.images[0].url} />}
 
                             {(hoveredProduct === id) && <div className='w-full  absolute bottom-[-34px] flex flex-col mt-2 items-center bg-white h-[85px] transition-opacity duration-300 ease-in'>
                                 <div className='bg-white flex p-1 items-center justify-center w-[80%] m-1   border-[1px] border-gray-300 rounded-md absolute bottom-2 shadow-lg'>

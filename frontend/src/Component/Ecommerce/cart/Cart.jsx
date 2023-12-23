@@ -1,14 +1,18 @@
 import React, { useState } from 'react'
 import { Progress } from './Progress'
 import { Footer } from '../Footer'
-
+import QuantityModal from '../Modals/QuantityModal';
+import { IoIosArrowDown } from "react-icons/io";
+import SizeModal from '../Modals/SizeModal';
 export const Cart = () => {
+
+
     const products = [{
         name: "Example Product",
         category: "Electronics",
         brand: "Example Brand",
         price: 499.99,
-        stock: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        stock: 10,
         discount: 5,
         images: [{
             url: "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1695457767_2085607.jpg?format=webp&w=480&dpr=1.3",
@@ -32,7 +36,7 @@ export const Cart = () => {
         category: "Clothing",
         brand: "Fashionista",
         price: 889.99,
-        stock: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        stock: 12,
         discount: 10,
         images: [
             {
@@ -53,7 +57,7 @@ export const Cart = () => {
         brand: "Chic Couture",
         price: 1149.99,
         discount: 8,
-        stock: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        stock: 7,
         images: [
             {
                 url: "https://images.bewakoof.com/t640/men-s-blue-legendary-sanin-graphic-printed-oversized-t-shirt-628713-1702015800-1.jpg",
@@ -72,7 +76,7 @@ export const Cart = () => {
         brand: "Adidas",
         price: 129.99,
         discount: 15,
-        stock: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        stock: 7,
         images: [
             {
                 url: "https://images.bewakoof.com/t640/men-s-black-loki-grunge-graphic-printed-t-shirt-628238-1701260205-1.jpg",
@@ -91,7 +95,7 @@ export const Cart = () => {
         category: "Clothing",
         brand: "Nike",
         price: 49.99,
-        stock: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        stock: 5,
         discount: 10,
         images: [
             {
@@ -110,7 +114,7 @@ export const Cart = () => {
         category: "Footwear",
         brand: "Adidas",
         price: 179.99,
-        stock: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        stock: 4,
         discount: 10,
         images: [
             {
@@ -128,7 +132,7 @@ export const Cart = () => {
         name: "Nike Air Max Running Shoes",
         category: "Footwear",
         brand: "Nike",
-        stock: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        stock: 10,
         price: 139.99,
         discount: 8,
         images: [
@@ -149,7 +153,7 @@ export const Cart = () => {
         category: "Clothing",
         brand: "Puma",
         price: 69.99,
-        stock: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        stock: 19,
         discount: 15,
         images: [
             {
@@ -304,30 +308,70 @@ export const Cart = () => {
     ];
 
     const [productQuantities, setProductQuantities] = useState({});
+    const [productQty, setProductQty] = useState({});
+    const [selectedProductQty, setQtyproduct] = useState('');
+    const [Qtyopen, QtysetOpen] = React.useState(false);
+    
+    const [selectedProduct, setSelectedProduct] = React.useState(null);
+    const [open, setOpen] = React.useState(false);
+    const [border, setBorder] = React.useState('');
+    
+    const QtyhandleClose = () => QtysetOpen(false);
 
-    const handleChange = (productId, e) => {
+    const handleSetSize = (productId, size, index) => {
+        setBorder(index);
         const newQuantities = {
             ...productQuantities,
-            [productId]: { ...productQuantities[productId], [e.target.name]: e.target.value, },
+            [productId]: { ...productQuantities[productId], size: size, },
         };
         setProductQuantities(newQuantities);
-        console.log(productQuantities)
-    };
-    // const [ProductInfo, setInfo] = useState({ size: 'S', quantity: 1 })
+    }
 
-    // const handleChange = async ({productId,e}) => {
-    //     setInfo((prev) => ({
-    //         ...prev,
-    //         [productId]: {
-    //           ...prev[productId],
-    //           quantity: e.target.value
-    //         }
-    //       }));
-    // };
-    // console.log(ProductInfo);
+    const handleOpenQty = (product) => {
+        setQtyproduct(product);
+        QtysetOpen(true);
+    }
+
+    const handleSetqty = (productId, size, index) => {
+         setBorder(index);
+        const newQuantities = {
+            ...productQty,
+            [productId]: { ...productQty[productId], quantity: size, },
+        };
+        setProductQty(newQuantities);
+    }
+
+
+    const handleOpen = (product) => {
+        setSelectedProduct(product);
+        setOpen(true);
+    }
+
+    const handleClose = () => setOpen(false);
+
     return (
         <div className='relative w-full'>
-        <div className='h-4 bg-red-700 w-full absolute shadow-red-300'></div>
+            {open && <QuantityModal
+                open={open}
+                handleSetSize={handleSetSize}
+                selectedProduct={selectedProduct}
+
+                border={border}
+                handleClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            />}
+            {Qtyopen && <SizeModal
+                open={Qtyopen}
+                handleSetSize={handleSetqty}
+                selectedProduct={selectedProductQty}
+
+                border={border}
+                handleClose={QtyhandleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            />}
+            <div className='h-4 bg-red-700 w-full absolute shadow-red-300'></div>
             <header className=' fixed top-0 w-full z-10'>
                 <div className='w-full h-20 bg-white  border-gray-500  z-20   shadow-xl '>
                     <div className='flex h-full items-center'>
@@ -345,52 +389,41 @@ export const Cart = () => {
                     <div className='flex-[55%] flex flex-col w-full p-4 '>
                         <div className='flex p-6 justify-between items-center border-[1px] border-gray-300'>
                             <span>Deliverd to:761105</span>
-                            <button className='text-red-400 h-10 w-max p-2 font-mono  border-[1px] border-red-400 shadow-md'>CHECK PINCODE</button>
+                            <button onClick={handleOpen} className='text-red-400 h-10 w-max p-2 font-mono  border-[1px] border-red-400 shadow-md'>CHECK PINCODE</button>
                         </div>
                         <div className='p-3'>
                             {products.map((pro, i) => (
                                 <div key={i} className='p-2 flex m-3 w-full h-[18rem] shadow-lg border-[1px] border-gray-300'>
-                                    {/* <div className='flex-[25%] relative'>
-                                        <img className='w-[200px] h-[200px] rounded-md' src={pro.images[0].url} alt='img' />
-                                        <span className={`z-1 text-xs border-1 border-gray-400 bg-[#000000a9]
-                       
-                         text-[white] p-1 absolute top-2 right-1 rounded-md shadow-md `}>{pro.brand}</span>
-                                    </div> */}
+                                   
                                     <div className='flex-[75%] m-2 flex-col justify-between flex'>
                                         <div >
                                             <div className='flex justify-between '>
                                                 <span className=' font-bold text-base capitalize'> {pro.brand}</span>
                                                 {/* <span className=' font-bold'>Rs.{pro.price}</span> */}
                                             </div>
-                                            <span className='text-gray-500 text-base'>{pro.category}</span>
+                                            <span className='text-gray-500 text-base flex w-max'>{pro.category}</span>
                                             <div>
-                                                <select className=' outline-none bodrder-[1px] p-2 h-12 w-15  border-2 border-orange-400 
-                                            m-2'  name='size' onChange={(e) => handleChange(pro.images[0].id, e)}
-                                                    value={productQuantities[pro.images[0].id]?.size || 'M'}>
-                                                    {pro.size.map((sizes, index) => (
-                                                        <option key={index} value={sizes} >{sizes}</option>
-                                                    ))}
 
-                                                </select>
-                                                <select className=' outline-none bodrder-[1px] p-2 h-12 w-15  border-2 border-orange-400 
-                                            m-2' name='quantity' onChange={(e) => handleChange(pro.images[0].id, e)}
-                                                    value={productQuantities[pro.images[0].id]?.quantity || 1}>
-                                                    {pro.stock.map((stocks, index) => (
-                                                        <option key={index} value={stocks} >{stocks}</option>
-                                                    ))}
+                                                <div className='bg-white p-2 border-[1px] flex border-gray-300 w-max hover:cursor-pointer' onClick={() => handleOpen(pro)} >
+                                                    <span className='text-gray-600 flex items-center'>Size : <b id="testChangeSize">{productQuantities[pro.images[0].id]?.size || 'M'}</b>
+                                                        <IoIosArrowDown /></span>
+                                                </div>
+                                                <div className='bg-white p-2 border-[1px] flex border-gray-300 w-max hover:cursor-pointer' onClick={() => handleOpenQty(pro)} >
+                                                    <span className='text-gray-600 flex items-center'>Qty : <b id="testChangeSize">{productQty[pro.images[0].id]?.quantity || 1}</b>
+                                                        <IoIosArrowDown /></span>
+                                                </div>
 
-                                                </select>
                                             </div>
 
                                             <span name='FinalPrice' className='text-sm font-bold'>Total Rs. {(
                                                 pro.price *
-                                                (productQuantities[pro.images[0].id]?.quantity || 1) - // Use product quantity from state
+                                                (productQty[pro.images[0].id]?.quantity || 1) - // Use product quantity from state
                                                 pro.price *
-                                                (productQuantities[pro.images[0].id]?.quantity || 1) *
+                                                (productQty[pro.images[0].id]?.quantity || 1) *
                                                 (pro.discount / 100)
                                             ).toFixed(2)}
                                                 <del className='font-thin ml-1 text-gray-600'>
-                                                     {(pro.price * (productQuantities[pro.images[0].id]?.quantity || 1)).toFixed(2)}
+                                                     {(pro.price * (productQty[pro.images[0].id]?.quantity || 1)).toFixed(2)}
                                                 </del> <span className='text-red-400'> {pro.discount}% OFF</span>
                                             </span>
                                         </div>
@@ -405,7 +438,7 @@ export const Cart = () => {
                                         <span className={`z-1 text-xs border-1 border-gray-400 bg-[#000000a9]
                        
                          text-[white] p-1 absolute top-2 right-1 rounded-md shadow-md `}>{pro.brand}</span>
-                          <span className='p-4 font-bold'>Rs.{pro.price}</span>
+                                        <span className='p-4 font-bold'>Rs.{pro.price}</span>
                                     </div>
 
                                 </div>
@@ -443,22 +476,22 @@ export const Cart = () => {
                                 </div>
                                 <div className='flex p-2 justify-between  border-b-[1px] border-gray-300'>
                                     <span>Subtotal </span>
-                                    <span className='font-bold text-lg'>₹{carts.cartitems.reduce((acc,productitm)=>acc+productitm.FinalPrice,0)}</span>
+                                    <span className='font-bold text-lg'>₹{carts.cartitems.reduce((acc, productitm) => acc + productitm.FinalPrice, 0)}</span>
                                 </div>
                             </div>
                         </div>
 
                         <div className='w-[65%] p-2 flex flex-col  border-[1px] border-gray-300'>
-                        <div className='flex justify-between m-3'>
-                            <span>
-                                Total ₹ 1248
-                            </span>
-                            <button className='p-3 h-max w-max font-bold text-white rounded-xl bg-red-500'>ADD ADDRESS</button>
+                            <div className='flex justify-between m-3'>
+                                <span>
+                                    Total ₹ 1248
+                                </span>
+                                <button className='p-3 h-max w-max font-bold text-white rounded-xl bg-red-500'>ADD ADDRESS</button>
                             </div>
                             <div className='flex justify-between'>
-                                <img className='w-12 h-12' src='https://images.bewakoof.com/web/cart-badge-trust.svg' alt='img'/>
-                                <img className='w-12 h-12' src='https://images.bewakoof.com/web/cart-easy-return.svg' alt='img'/>
-                                <img  className='w-12 h-12' src='https://images.bewakoof.com/web/quality-check.svg' alt='img'/>
+                                <img className='w-12 h-12' src='https://images.bewakoof.com/web/cart-badge-trust.svg' alt='img' />
+                                <img className='w-12 h-12' src='https://images.bewakoof.com/web/cart-easy-return.svg' alt='img' />
+                                <img className='w-12 h-12' src='https://images.bewakoof.com/web/quality-check.svg' alt='img' />
                             </div>
 
                         </div>
