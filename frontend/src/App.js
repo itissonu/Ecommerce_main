@@ -28,7 +28,7 @@ function App() {
         <Route path='/password/reset/:token' element={<ResetPassword/>} />
         <Route path='/register' element={<Register/>} />
     
-        <Route path='/singleProduct' element ={<SingleProduct />} />
+        <Route path='user/singleProduct' element ={<SingleProduct />} />
         <Route path="/admin/productadmin" element={<Product/>} />
         <Route path='/user/products' element={<Productspage/>}/>
         <Route path='/user/cart' element={<Cart/>} />
