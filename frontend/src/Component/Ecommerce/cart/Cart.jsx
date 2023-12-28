@@ -4,6 +4,7 @@ import { Footer } from '../Footer'
 import QuantityModal from '../Modals/QuantityModal';
 import { IoIosArrowDown } from "react-icons/io";
 import SizeModal from '../Modals/SizeModal';
+import { useNavigate } from 'react-router-dom';
 export const Cart = () => {
 
 
@@ -307,6 +308,7 @@ export const Cart = () => {
         }
     ];
 
+    const navigate=useNavigate();
     const [productQuantities, setProductQuantities] = useState({});
     const [productQty, setProductQty] = useState({});
     const [selectedProductQty, setQtyproduct] = useState('');
@@ -486,7 +488,7 @@ export const Cart = () => {
                                 <span>
                                     Total ₹ 1248
                                 </span>
-                                <button className='p-3 h-max w-max font-bold text-white rounded-xl bg-red-500'>ADD ADDRESS</button>
+                                <button onClick={()=>navigate('/user/deliver-address')} className='p-3 h-max w-max font-bold text-white rounded-xl bg-red-500'>ADD ADDRESS</button>
                             </div>
                             <div className='flex justify-between'>
                                 <img className='w-12 h-12' src='https://images.bewakoof.com/web/cart-badge-trust.svg' alt='img' />

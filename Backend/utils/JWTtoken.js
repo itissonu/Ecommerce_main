@@ -10,6 +10,8 @@ const generateAuthToken =async (user)=>{
             {
                 _id: user._id,
                 email: user.email,
+                name:user.name,
+                profilePhoto:user.profilePhoto
             },
             secretKey,
             { expiresIn: '1d' }

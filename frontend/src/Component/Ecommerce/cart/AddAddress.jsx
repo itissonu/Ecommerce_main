@@ -2,13 +2,22 @@ import React, { useEffect, useState } from 'react'
 import { Progress } from './Progress'
 import { Footer } from '../Footer'
 import { AddressModal } from '../Modals/AddressModal';
+import { useNavigate } from 'react-router-dom';
 
 export const AddAddress = () => {
     const [open, setOpen] = useState(false);
     const [existingAddress, setAddress] = useState([]);
     const [addres, setAddres] = useState('');
     const [selectedAddress, setSelectedAddress] = useState(null);
-
+ const navigate=useNavigate();
+    const[addvalue,CheckAddValue]=useState(false)
+ const handleProceedToPayment=()=>{
+        if(selectedAddress===null){
+            CheckAddValue(true);
+        }
+        if(selectedAddress!==null)
+        navigate('/user/payment')
+ }
     const carts = {
         "cartitems": [
             {
@@ -146,6 +155,7 @@ export const AddAddress = () => {
 
         setBorder(index);
         setSelectedAddress(existingAddress[index]);
+        CheckAddValue(false)
     };
 
     const subtotal = carts.cartitems.reduce(
@@ -153,7 +163,7 @@ export const AddAddress = () => {
         0
     );
 
-    const shippingCharges = subtotal > 1000 ? 0 : 200;
+    const shippingCharges = subtotal > 2000 ? 0 : 200;
 
     const tax = subtotal * 0.18;
 
@@ -179,9 +189,11 @@ export const AddAddress = () => {
                 <div className='w-[80%] flex'>
                     <div className='flex-[55%] flex flex-col w-full p-4 '>
                         <div className='flex justify-end  border-[1px] p-4  border-gray-300 shadow-md'>
+                       
                             <button className='text-red-400 shadow-lg h-10 w-max p-2 font-mono  border-[1px] border-red-400 ' onClick={() => setOpen(true)}>ADD ADDRESS</button>
                         </div>
                         <span className='m-3 font-semibold text-lg text-gray-700'>Deliver to</span>
+                       {addvalue && <span className='text-red-600 font-semibold mx-3'>*Pleaze Select an Address</span> }
                         <div>
                             {existingAddress.map((address, index) => (
 
@@ -248,7 +260,7 @@ export const AddAddress = () => {
                                     <span className='text-gray-500'>Total Amount </span>
                                     <span className='font-bold text-lg'>₹{(totalPrice).toFixed(2)}</span>
                                 </div>
-                                <button className='p-3 h-max w-full  rounded-sm bg-[#117a7a] text-white font-bold'>CONTINUE TO PAYMENT</button>
+                                <button onClick={ handleProceedToPayment} className={`p-3 h-max w-full  rounded-sm bg-[#117a7a] text-white font-bold ${addvalue===true?'hover:cursor-not-allowed':''}`}>CONTINUE TO PAYMENT</button>
                             </div>
                         </div>
 

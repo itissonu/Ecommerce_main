@@ -57,6 +57,7 @@ const userLogin = asyncawaitError(async (req, res, next) => {
     sameSite: 'None',
     }).status(200).json({
         success: true,
+        user,
         role: user.role,
         message: "login success", token,
     })

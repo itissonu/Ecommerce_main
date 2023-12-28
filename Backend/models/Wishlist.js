@@ -11,15 +11,6 @@ const wishlistSchema=mongoose.Schema({
         ref: "User",
         required:true,
     },
-    quantity:{
-        type:Number,
-        default:1,
-    },
-    size:{
-        type:String,
-        required:true,
-        default:'M'
-    },
     FinalPrice:{
         type:Number,
         required:true,

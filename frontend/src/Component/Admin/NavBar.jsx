@@ -1,19 +1,24 @@
 import axios from 'axios'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { LogoutUser } from '../../redux_toolkit/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const NavBar = () => {
   const navigate=useNavigate();
-  const handleClick =async()=>{
+  
+  const dispatch = useDispatch();
+  const authstate = useSelector((state) => state.auth);
+  const handleClick = async () => {
     try {
-    const response= await axios.get('http://localhost:8001/app/auth/logout',{
-      withCredentials: true,
-    });
-    navigate('/login')
+        await dispatch(LogoutUser());
+            navigate('/');
+   
     } catch (error) {
-      console.log(error)
+        console.log(error)
+      
     }
-  }
+}
 
   return (
     <div className='bg-white shadow-md sticky top-0 z-0 text-black flex justify-between items-center h-14 px-5'>
