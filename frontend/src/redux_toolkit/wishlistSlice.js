@@ -61,8 +61,9 @@ export const wishlistSlice = createSlice({
                 }
             })
             .addCase(WishlistGetAllProducts.rejected, (state, action) => {
+                console.log(action.error)
                 state.loading = false;
-                state.error = action.error.message;
+                state.error = action.error;
                 state.success = false;
                 state.message = "problem in getting the product" || "Internal error ";
                 if (state.success === false) {
@@ -80,18 +81,17 @@ export const wishlistSlice = createSlice({
                     state.wishproducts = action.payload.wishlistproduct;
                     state.success = true;
                     state.message = 'product wishlisted Successfully.'
-                    if (state.success === true) {
-                        toast.info("product wishlited successfully")
-                    } 
+                  
                     
                 })
                 .addCase(AddWishlistGProduct.rejected, (state, action) => {
+                    console.log(action)
                     state.loading = false;
                     state.error = action.error.message;
                     state.success = false;
                     state.message = "problem in adding the product" || "Internal error ";
                     if (state.success === false) {
-                        toast.error(action.error.message)
+                        toast.error(action.error?.message)
                     }
                 })
                 .addCase(deleteWishlistProduct.pending, (state) => {

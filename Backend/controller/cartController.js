@@ -7,12 +7,12 @@ const addToCart = asyncawaitError(async (req, res, next) => {
     if (!req.user.id) {
         return next(new createError("login please", 401));
     }
-    const { ProductId, quantity, color, FinalPrice, size } = req.body;
+    const { ProductId, quantity,  FinalPrice, size } = req.body;
 
     // console.log(req.user.id);
 
     const newCart = new Cart({
-        ProductId, quantity, color, FinalPrice, size,
+        ProductId, quantity,  FinalPrice, size,
         userId: req.user.id,
     });
 
@@ -21,11 +21,13 @@ const addToCart = asyncawaitError(async (req, res, next) => {
     if (!createdCart) {
         return next(new createError("error in adding product to cart", 401));
     }
+    const cartitems = await Cart.find({ userId: req.user.id }).populate("ProductId");
 
     res.status(200).json({
         success: true,
-        createdCart,
-        message: "Added to cart successfully"
+        cartproduct:cartitems,
+        message: "Added to cart successfully",
+        createdCart
     });
 
 
@@ -39,10 +41,12 @@ const deleteCart = asyncawaitError(async (req, res, next) => {
     if (result.deletedCount === 0) {
         return next(new createError('No such user found', 401));
     }
+    const cartitems = await Cart.find({ userId: req.user.id }).populate("ProductId");
 
     res.status(201).json({
         success: true,
-        message: 'User deleted successfully',
+        message: 'cart deleted successfully',
+        cartproduct:cartitems
     });
 
 });
@@ -52,21 +56,41 @@ const updateCart = asyncawaitError(async (req, res, next) => {
     }
        
 
-     const quantity = parseInt(req.params.quantity, 10);
-
-    const cartitm =await Cart.findOne({ userId:req.user.id, ProductId: req.params.ProductId });
+    const cartitm =await Cart.findOne({ userId:req.user.id, _id: req.params.ProductId });
 
     if (!cartitm) {
         return next(new createError("Cart item not found", 404));
       }
+      
+
+      if(!parseInt(req.body.quantity, 10) && !req.body.size){
+        return next(new createError("quantity or size need to update", 404));
+      }
+
+    
+      if(req.body.size){
+        cartitm.size=req.body.size;
+        await cartitm.save();
+      }
+
+      console.log( parseInt(req.body.quantity, 10)|| 1)
+
+      if(parseInt(req.body.quantity, 10))
+      {
+       cartitm.quantity= parseInt(req.body.quantity, 10);
+       await cartitm.save();
+      }
      
     
-    console.log(cartitm,"aftersave");
-    await cartitm.save();
+  
+    
+    const cartitems = await Cart.find({ userId: req.user.id }).populate("ProductId");
 
     res.status(200).json({
         success: true,
-        messege: "success",cartitm
+        messege: "success",
+        cartproduct:cartitems,
+        cartitm
     })
 
 
@@ -77,18 +101,16 @@ const getCartProductst = asyncawaitError(async (req, res, next) => {
     }
     const cartitems = await Cart.find({ userId: req.user.id }).populate("ProductId");
         if(cartitems.length===0){
-            res.status(201).json({
+          return  res.status(201).json({
                 success: true,
-                message:"no prodcut found go and shop now", cartitems
+                message:"no prodcut found go and shop now",cartproduct: cartitems
                 
             });
         }
-    if (!cartitems) {
-        res.status(200).json({ messege: "Cart is empty go and shop now" });
-    }
+    
     res.status(201).json({
         success: true,
-        cartitems
+        cartproduct:cartitems
     });
 
 });

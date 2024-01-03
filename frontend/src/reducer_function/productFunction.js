@@ -2,9 +2,21 @@ import axios from "axios";
 
 import { URL } from '../utils/serverurl'
 
-const getallproducts = async () => {
+const getallproducts = async (params) => {
     try {
-      const response = await axios.get(`${URL}product/allproducts`, {
+      const { minPrice, maxPrice, category, colors, brand ,search} = params;
+
+     
+      const finalURL = `${URL}product/allproducts?` +
+    
+      `minPrice=${encodeURIComponent(minPrice || '')}&` +
+      `search=${encodeURIComponent(search || '')}&` +
+      `maxPrice=${encodeURIComponent(maxPrice || '')}&` +
+      `category=${encodeURIComponent(category || '')}&` +
+      `colors=${encodeURIComponent(colors || '')}&` +
+      `brand=${encodeURIComponent(brand || '')}`; 
+      console.log(finalURL)
+      const response = await axios.get(`${finalURL}`, {
         withCredentials: true,
       });
       if(response.data){

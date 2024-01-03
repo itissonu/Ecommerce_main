@@ -7,7 +7,7 @@ import Toaster from '../toast/Toast';
 
 export const Model = ({ isOpen, setOpen ,tostifySuccess }) => {
   const ageCategories = ["select", "Men", "Women", "Boys", "Girls", "Infants", "Toddlers"];
-  const clothingCategories = ["select", "T-Shirts", "Shirts", "Jeans", "Dresses", "Sweaters", "Jackets", "Shorts", "Skirts", "Activewear", "Suits", "Socks", "Accessories", "Shoes"];
+  const clothingCategories = ["select", "TShirts", "Shirts", "Jeans", "Dresses", "Sweaters", "Jackets", "Shorts", "Skirts", "Activewear", "Suits", "Socks", "Accessories", "Shoes"];
   const sizeOptions = ["select", 'S', 'M', 'L', 'XS', 'XL'];
   const colorOptions = ["select", 'red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'brown', 'gray', 'black', 'white', 'cyan'];
   const brandOptions = ["select", 'Nike', 'Adidas', 'Puma', 'Levi\'s', 'Gap', 'H&M', 'Zara', 'Calvin Klein', 'Tommy Hilfiger', 'Under Armour', 'Fila', 'Converse', 'Vans', 'Reebok'];

@@ -16,6 +16,7 @@ import { ForgotPassword } from './pages/ForgotPassword';
 import { ResetPassword } from './pages/ResetPassword';
 import { MyProfile } from './pages/MyProfile';
 import { Wishlist } from './Component/Ecommerce/cart/Wishlist';
+import { Cartloader } from './utils/Cartloader';
 function App() {
   return (
     <Router>
@@ -37,6 +38,7 @@ function App() {
         <Route path='/user/payment' element={<Payment/>} />
         <Route path='/user/myorders' element={<MyOrders/>} />
         <Route path='/user/myprofile' element={<MyProfile/>} />
+        <Route path='/loadercheck' element={<Cartloader/>} />
       </Routes>
     </Router>
   );

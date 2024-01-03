@@ -6,41 +6,124 @@ import { LuTag } from "react-icons/lu";
 import { BiDetail } from "react-icons/bi";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { GetAProduct } from "../../redux_toolkit/productSlice";
 import { Loaderproduct } from "./Loaderproduct";
+import { AddcartsProduct, cartsGetAllProducts } from "../../redux_toolkit/cartSlice";
+import { AddWishlistGProduct } from "../../redux_toolkit/wishlistSlice";
 
 const SingleProduct = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
+  const [error, seterror] = useState(false)
+  const [size, setSelectsize] = useState('');
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
+  const[cartstatus,setCartStatus]=useState(false);
+  const[wishstatus,setwishStatus]=useState(false);
+
+  const navigate = useNavigate()
+  const cartstate = useSelector((state) => state.cartproducts);
+  const productstate = useSelector((state) => state.allproducts);
+  const wishliststate = useSelector((state) => state.wishlistproducts)||[];
+  const dispatch = useDispatch();
+
+ 
   useEffect(() => {
-    getProducts()
+    // const fetchProducts = async() => {
+    //    dispatch(cartsGetAllProducts());
+    //  };
+    // // fetchProducts()
+    //  const getProducts = async () => {
+    //   await dispatch(GetAProduct(id))
+    //   setLoading(false);
+    // }
+    // getProducts()
+    const fetchData = async () => {
+      try {
+        
+        await dispatch(GetAProduct(id));
+        await dispatch(cartsGetAllProducts());
+        await dispatch(cartsGetAllProducts());
+        
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false); 
+      }
+    };
+  
+    fetchData();
+  
   }, [id]);
 
-  const productstate = useSelector((state) => state.allproducts);
-  const dispatch = useDispatch();
-  const getProducts = async () => {
-    await dispatch(GetAProduct(id))
-    setLoading(false);
+
+  const handleAdd = async () => {
+    if (!size)
+      seterror(true)
+    if (size && selectedQuantity) {
+      const price = ((product.price) - (product?.price) * (product?.discount / 100)).toFixed(0)
+      const data = { ProductId: id, quantity: selectedQuantity, FinalPrice: price, size: size }
+      await dispatch(AddcartsProduct(data));
+    }
   }
+  const handleAddwish = async () => {
+    const body = { ProductId: id, FinalPrice: product?.price }
+    await dispatch(AddWishlistGProduct(body))
+  }
+
   const product = productstate?.singleProduct;
   const stocksize = product?.Stock >= 10 ? 10 : product?.Stock;
-  
-    const startValue = 1;
-    const endValue = stocksize;
-    const newArray = [];
 
-  
+  const startValue = 1;
+  const endValue = stocksize;
+  const newArray = [];
+
+
   for (let i = startValue; i <= endValue; i++) {
     newArray.push(i);
-}
-const [selectedQuantity, setSelectedQuantity] = useState(1);
+  }
+  
+ 
 
-const handleQuantityChange = (e) => {
-setSelectedQuantity(parseInt(e.target.value, 10));
-};
-console.log(selectedQuantity)
+  // if (cartstate?.cartProducts?.length !== 0) {
+
+  //   const isProductIncart = (id) => {
+  //     return cartstate?.cartProducts?.some((item) => item?.ProductId?._id === id);
+  //   };
+  //   if (isProductIncart)
+  //     setCartStatus(true)
+  // }
+  useEffect(() => {
+    const isProductIncart = (id) => {
+      console.log(id)
+      return (
+        cartstate?.cartProducts &&
+        cartstate.cartProducts.some((item) => item?.ProductId?._id === id)
+      );
+    };
+    const isProductInwishlist = (id) => {
+      console.log(id)
+      return (
+        wishliststate?.wishproducts &&
+        wishliststate.wishproducts.some((item) => item?.ProductId?._id === id)
+      );
+    };
+
+  
+    if (isProductIncart(id))
+      setCartStatus(true);
+      if (isProductInwishlist(id))
+      setwishStatus(true);
+
+  }, [cartstate?.cartProducts, id]);
+  console.log(cartstatus)
+
+  const handleQuantityChange = (e) => {
+    setSelectedQuantity(parseInt(e.target.value, 10));
+  };
+
+  const sizeOptions = ['S', 'M', 'L', 'XS', 'XL'];
   return (
     <div className="lg:flex flex flex-col ">
       <Header />
@@ -52,14 +135,14 @@ console.log(selectedQuantity)
               className=""
               src={product?.images[0]?.url}
               alt="image"
-            /><div className="flex flex-wrap gap-3 p-4">
-            {product.images.map((image, i) => (
-              <img key={i}
-                className="h-[30%] w-[30%] "
-                src={image?.url}
-                alt="image"
-              />
-            ))}</div>
+            /><div className="flex flex-wrap gap-3 p-4 h-1/2">
+              {product.images.map((image, i) => (
+                <img key={i}
+                  className="h-[270px] w-[270px] "
+                  src={image?.url}
+                  alt="image"
+                />
+              ))}</div>
 
           </div>
 
@@ -69,7 +152,7 @@ console.log(selectedQuantity)
               {product?.name}
             </div>
             <div className=" ">
-              <span className="text-2xl font-bold">₹499</span>
+              <span className="text-2xl font-bold">₹{((product.price) - (product?.price) * (product?.discount / 100)).toFixed(0)}</span>
               <span className="line-through text-lg opacity-50 p-2">₹{product?.price}</span>
               <span className="text-green-300 block mt-2">{product?.discount}% OFF</span>
               <span className="capitalize text-sm block mb-3">
@@ -78,7 +161,7 @@ console.log(selectedQuantity)
               <div className="capitalize h-content  p-2 bg-slate-300 rounded-lg flex gap-6 text-lg mb-4 w-max">
                 <span className="text-xs xs:text-sm">Price ₹459</span>
                 <span className="text-sm flex items-center ">
-                  SaveEXTRA ₹40with TriBe and, enjoy FREE Delivery
+                  SaveEXTRA ₹200with TriBe and, enjoy FREE Delivery above ₹2000 shopping
                 </span>
               </div>
 
@@ -95,39 +178,62 @@ console.log(selectedQuantity)
                   100% COTTON
                 </div>
               </div>
-              
-              <div className="bg-white shadow-md flex justify-start p-3 gap-4 mt-4 ">
+              {error && <span className="text-red-500 font-bold">Please select a size </span>}
+
+              {/* <div className="bg-white shadow-md flex justify-start p-3 gap-4 mt-4 ">
                 {product?.size.map((sz, i) => (
                   <span key={i} className=" h-10 rounded-2xl bg-gray-300 w-14 items-center flex justify-center ">
                     {sz}
                   </span>
+                ))}
+              </div> */}
+              <div className="bg-white shadow-md flex justify-start p-3 gap-4 mt-4 ">
+                {sizeOptions.map((sz, i) => (
+                  product?.size.includes(sz) ? (
+                    <span onClick={() => setSelectsize(sz)} key={i} className={`h-10 rounded-2xl ${size === sz
+                        ? 'bg-gray-300  border-2 border-[#117a7a] '
+                        : 'bg-gray-300 '
+                      } w-14 hover:cursor-pointer items-center flex justify-center`}>
+                      {sz}
+                    </span>
+                  ) : (
+                    <span key={i} className="h-10 rounded-2xl bg-gray-100 text-slate-300 hover:cursor-not-allowed w-14 items-center flex justify-center">
+                      {sz}
+                    </span>
+                  )
                 ))}
 
 
               </div>
             </div>
             <div className="flex item-center mt-3">
-                <div className="flex">
-                  <div className=" ">Quantity  &nbsp; </div>
-                  <select className="border-[1px] border-gray-500 rounded-sm shadow-md outline-none"   value={selectedQuantity}
-          onChange={handleQuantityChange}>
-                    {newArray.map((num,index) => (
-            <option key={index} value={num }>
-              {num }
-            </option>
-          ))}
-                  </select>
-                </div>
+              <div className="flex items-center font-semibold">
+                <div className=" ">Quantity  &nbsp; </div>
+                <select className="border-[1px] border-gray-500 rounded-sm shadow-md outline-none p-2" value={selectedQuantity}
+                  onChange={handleQuantityChange}>
+                  {newArray.map((num, index) => (
+                    <option key={index} value={num}>
+                      {num}
+                    </option>
+                  ))}
+                </select>
               </div>
+            </div>
             <div className="flex justify-center items-center h-16 my-3 gap-4 mt-5">
-              <button className=" w-1/2 rounded-md py-3 bg-[#ec3d25] hover:bg-[#fb641b]  hover:text-xl text-white text-lg font-bold ">
+            {cartstatus ? <button onClick={()=>navigate('/user/cart')} className=" w-1/2 rounded-md py-3 bg-[#ec3d25] hover:bg-[#fb641b]  hover:text-xl text-white text-lg font-bold ">
+                <span className="mr-1 xs:mr-3 ">GO TO BAG{'->'}</span>
+                <TiShoppingCart size={30} className="inline-flex" />
+              </button>: <button onClick={handleAdd} className=" w-1/2 rounded-md py-3 bg-[#ec3d25] hover:bg-[#fb641b]  hover:text-xl text-white text-lg font-bold ">
                 <span className="mr-1 xs:mr-3 ">ADD TO BAG</span>
                 <TiShoppingCart size={30} className="inline-flex" />
-              </button>
-              <button className="w-1/2 rounded-md py-3 text-black  text-xl border-2">
+              </button>}  
+           {wishstatus ?<button className="w-1/2 rounded-md py-3 text-black bg-gray-400  text-xl border-2">
+                <span className="mr-3 text-[#14abcf]">Wishlisted </span>
+                <IoIosHeartEmpty size={30} className="inline-flex text-red-400" />
+              </button>:<button onClick={handleAddwish} className="w-1/2 rounded-md py-3 text-black  text-xl border-2">
                 <span className="mr-3 text-[#14abcf]">Wishlist</span>
                 <IoIosHeartEmpty size={30} className="inline-flex " />
-              </button>
+              </button>}   
             </div>
 
             <div>

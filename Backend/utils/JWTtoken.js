@@ -14,7 +14,7 @@ const generateAuthToken =async (user)=>{
                 profilePhoto:user.profilePhoto
             },
             secretKey,
-            { expiresIn: '1d' }
+            { expiresIn: '7d' }
         );
             
         return token;

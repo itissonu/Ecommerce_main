@@ -1,14 +1,20 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Header } from '../Header'
 import { Footer } from '../Footer'
 import { useDispatch, useSelector } from 'react-redux'
 import { WishlistGetAllProducts, deleteWishlistProduct } from '../../../redux_toolkit/wishlistSlice'
 import { Loaderproduct } from '../Loaderproduct'
+import { AddcartsProduct, cartsGetAllProducts } from '../../../redux_toolkit/cartSlice'
+import { useNavigate } from 'react-router-dom'
 
 export const Wishlist = () => {
-    
-    const handleAdd = () => {
-
+  const wishliststate = useSelector((state) => state.wishlistproducts)||[];
+  const dispatch = useDispatch();
+const navigate=useNavigate();
+    const handleAdd = async(id,FinalPrice,size) => {
+      await dispatch(deleteWishlistProduct(id));
+      const data={ ProductId:id, quantity:1,  FinalPrice, size }
+      await  dispatch(AddcartsProduct(data));
     }
 
     const storedUserData = localStorage.getItem('user');
@@ -17,8 +23,13 @@ export const Wishlist = () => {
       await dispatch(deleteWishlistProduct(id));
 
     }
-    const wishliststate = useSelector((state) => state.wishlistproducts);
-    const dispatch = useDispatch();
+    useEffect(() => {
+      const fetchProducts = async() => {
+        await dispatch(cartsGetAllProducts());
+       };
+     
+     fetchProducts()
+    }, []);
 
     useEffect(() => {
         const calldispatch = async () => {
@@ -27,8 +38,30 @@ export const Wishlist = () => {
         calldispatch()
     }, [ ]);
     const products= wishliststate.wishproducts;
-   
+    /////////////////////////////////////
 
+    const [ProductInfo, setInfo] = useState({
+      tags: [],
+      newTag: '', // new state to hold the input for adding new tags
+    });
+   
+  console.log(ProductInfo.tags)
+    const handleChange = async (e) => {
+      setInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    };
+  
+    const handleTagsChange = (e) => {
+      setInfo((prev) => ({ ...prev, newTag: e.target.value }));
+    };
+  
+    const addTag = () => {
+      setInfo((prev) => ({
+        ...prev,
+        tags: [...prev.tags, prev.newTag],
+        newTag: '', // clear the input after adding the tag
+      }));
+    };
+    ///////////////////////////////////////////////
     if(!storedUserData){
       return(
         <>
@@ -79,12 +112,12 @@ export const Wishlist = () => {
             </div>
             <div className='w-full h-full flex flex-wrap mt-6'>
                 {products.map((product, id) => (
-                    <div className='w-[19rem] h-[505px]  justify-center m-2 shadow-xl items-center flex flex-col rounded-[10px]' key={id} >
-                        <div className=' relative h-72  '>
+                    <div onClick={() => navigate(`/user/singleProduct/${product?.ProductId?._id}`)} className='w-[19rem] h-[505px]  justify-center m-2 shadow-xl items-center flex flex-col rounded-[10px]' key={id} >
+                        <div className=' relative h-64 '>
                             <span className='text-xs border-1 border-gray-400 bg-[darkseagreen]
                
                  text-[darkslategray] p-1 absolute top-2 left-2 rounded-md shadow-md '>{product?.ProductId?.brand}</span>
-                            <img className='h-72 w-72 rounded-[0.50rem]' src={product?.ProductId?.images[0].url} />
+                            <img className='h-64 w-64 ' src={product?.ProductId?.images[0].url} />
                         </div>
                         <div className='flex flex-col h-[136px]  w-full p-3'>
                             <span className='font-[700] mx-2'>{product.ProductId?.category}</span>
@@ -96,16 +129,35 @@ export const Wishlist = () => {
                             </div>
                         </div>
                         <div className='w-full gap-7 m-5 flex justify-center'>
-                            <button onClick={() => handleAdd()} className='font-bold text-base p-2 border-[1px] border-[#e93d67] text-[#e93d67]'>MOVE TO BAG</button>
-                            <button onClick={() => handleReove(product.ProductId._id)} className='font-bold text-base p-2 border-[1px] border-[gray] text-[gray]'>REMOVE</button>
-                        </div>
+                            <button onClick={(e) => {
+                                e.stopPropagation();
+                                handleAdd(product.ProductId._id,((product.ProductId?.price)-(product?.ProductId?.price)*(product?.ProductId?.discount/100)).toFixed(0),product.ProductId?.size[0])
+                            }} className='font-bold text-base p-2 border-[1px] border-[#e93d67] text-[#e93d67]'>MOVE TO BAG</button>
+                            <button onClick={(e) => { e.stopPropagation();
+                            handleReove(product.ProductId._id)}} className='font-bold text-base p-2 border-[1px] border-[gray] text-[gray]'>REMOVE</button>
+                        </div>{console.log()}
                     </div>
                 ))
 
                 }
 
-
+                
             </div> <div className="glow-element h-5 w-5 bg-green-500 rounded-full animate-pulse"></div>
+            <input
+            className=' outline-none border-2 border-slate-500 m-2'
+            type='text'
+            name='tags'
+            onChange={handleTagsChange}
+            value={ProductInfo.newTag}
+          />
+          <button type='button' onClick={addTag}>Add</button>
+          <div>
+            {ProductInfo.tags.map((tag, index) => (
+              <span key={index} className='tag block'>
+                {tag}
+              </span>
+            ))}
+          </div>
             <Footer />
         </div>
     )

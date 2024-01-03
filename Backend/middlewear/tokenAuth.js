@@ -7,8 +7,9 @@ const jwt = require("jsonwebtoken");
 exports.isAuthenticate = asyncawaitError(async (req, res, next) => {
 //console.log(req.cookies)
   const { token } = req.cookies;
- // console.log(token)
+//  console.log(token)
   if (!token) {
+    console.log("yes")
     return next(new createError("please log in for these action", 401))
   }
   const data = jwt.verify(token

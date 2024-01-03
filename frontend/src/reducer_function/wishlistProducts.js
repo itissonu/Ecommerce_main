@@ -25,6 +25,7 @@ const WishlistGetAllProducts  = async () => {
         return response.data;
       }
     } catch (error) {
+      console.log(error.response.data)
       throw error.response.data
   
     }

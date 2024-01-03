@@ -1,5 +1,5 @@
-import React, { useEffect, useReducer } from 'react'
-import { Header } from '../Header'
+import React, { useEffect, useReducer, useState } from 'react'
+ import { Header } from '../Header'
 import { ProductSidebar } from './ProductSidebar'
 import ProductContainer from './ProductContainer'
 import { Footer } from '../Footer'
@@ -7,20 +7,28 @@ import { useDispatch, useSelector } from 'react-redux'
 import { GetAllProducts } from '../../../redux_toolkit/productSlice'
 import { ToastContainer } from 'react-toastify'
 import { Loaderproduct } from '../Loaderproduct'
+import { useLocation } from 'react-router-dom'
 export const Productspage = () => {
       const productstate = useSelector((state) => state.allproducts);
       const dispatch = useDispatch();
-     
+      const params = useSelector((state) => state.params);
+      
+      const { minPrice, maxPrice, category, colors, brand,search } = params;
       useEffect(()=>{
         getProducts()
-      },[]);
+      },[minPrice, maxPrice, category, colors, brand,search ]);
 
       const getProducts =async ()=>{
-       await  dispatch(GetAllProducts())
+       await  dispatch(GetAllProducts(params))
       }
+      //console.log(param)
+      const location = useLocation();
+const receivedValue = location.state?.searchtext || '';
+
   return (
     <div className='flex flex-col '>
         <Header/>
+       
         <ToastContainer position="top-right"
         autoClose={5000}
         hideProgressBar={false}
@@ -37,11 +45,13 @@ export const Productspage = () => {
             </div>
             <div>
                 <div className='h-20 w-full border-b-2 border-gray-300'>
-                    this the header will show no of products and heading of the product details
+                    this the header will show no of products and heading of the product details <span>
+                        serach results for( <b className='text-lg'>{receivedValue}</b>)
+                    </span>
                 </div>
                 <div className='w-full flex  h-1/2 p-1'>
                     <div className='  h-max  flex flex-[20%]'>
-                        <ProductSidebar/>
+                        <ProductSidebar />
                     </div>
                     <div className=' flex p-3 h-full flex-[80%]'>
                     {productstate.loading ? <Loaderproduct /> : <ProductContainer products={productstate?.products} />}

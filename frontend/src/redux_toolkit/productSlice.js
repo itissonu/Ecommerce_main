@@ -4,10 +4,10 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import productFunctions from '../reducer_function/productFunction';
 
-const GetAllProducts = createAsyncThunk("product/getproducts", async () => {
+const GetAllProducts = createAsyncThunk("product/getproducts", async (params) => {
     try {
-     
-        return await    productFunctions.getallproducts();
+       
+        return await    productFunctions.getallproducts(params);
 
     } catch (error) {
         throw error;

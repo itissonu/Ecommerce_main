@@ -25,12 +25,18 @@ const getallproducts = asyncawaitError(async (req, res, next) => {
     let query = {};
 
 
+    // if (req.query.category) {
+    //     const categoriesArray = req.query.category.split(',');
+    //     const categoriesRegexArray = categoriesArray.map(category => new RegExp(category, 'i'));
+    //     query.category = { $in: categoriesRegexArray };
+        
+    // }
     if (req.query.category) {
         const categoriesArray = req.query.category.split(',');
-        const categoriesRegexArray = categoriesArray.map(category => new RegExp(category, 'i'));
+        const categoriesRegexArray = categoriesArray.map(category => new RegExp(`^${category}$`, 'i'));
         query.category = { $in: categoriesRegexArray };
-        
     }
+    
 
     if (req.query.size) {
         const sizesArray = req.query.size.split(',');
@@ -65,13 +71,14 @@ const getallproducts = asyncawaitError(async (req, res, next) => {
     }
 
     if (req.query.search) {
-        const searchRegex = new RegExp(req.query.search, 'i');  //regexp - no need to filter/match texts i for case insens.
+        const searchRegex = new RegExp(req.query.search, 'i'); 
+        const categoryRegex = new RegExp(`^${req.query.search}$`, 'i'); //regexp - no need to filter/match texts i for case insens.
         query.$or = [           //or means either of this is true
             { name: searchRegex },
-            { description: searchRegex },
+            
             { colors: searchRegex },
             { brand: searchRegex },
-            { category: searchRegex }
+            { category: categoryRegex }
         ];
     }
     // Pagination
@@ -79,12 +86,17 @@ const getallproducts = asyncawaitError(async (req, res, next) => {
     const limit = parseInt(req.query.limit) || 15;
     const skip = (page - 1) * limit;
 
-    //console.log(query)
+    
     const products = await Product.find(query).skip(skip)
         .limit(limit);;
 
     if (products.length === 0) {
-        return next(new createError("no such product found", 401))
+       // return next(new createError("no such product found", 401))
+    return   res.status(200).json({
+        success:true,
+        products
+    });
+
     }
 
     res.status(200).json({
