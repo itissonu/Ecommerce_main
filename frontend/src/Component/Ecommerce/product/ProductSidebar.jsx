@@ -77,7 +77,7 @@ export const ProductSidebar = () => {
     const data = {
         minPrice: minValue,
         maxPrice: maxValue,
-        category: [...selectedCategories].join(','),
+        // category: [...selectedCategories].join(','),
         colors: [...color].join(','),
         brand: [...selectedCategoriessecond].join(',')
     };
@@ -118,7 +118,7 @@ export const ProductSidebar = () => {
                         Girl
                     </label>
                 </div>
-                <div className='border-b-[1px] flex flex-col border-gray-200 shadow-sm border-r-[1px] '>
+                {/* <div className='border-b-[1px] flex flex-col border-gray-200 shadow-sm border-r-[1px] '>
                     <h1 className='mx-4 m-4 font-bold'>Category</h1>
 
 
@@ -143,7 +143,7 @@ export const ProductSidebar = () => {
                         <button className='text-red-400 p-2 font-semibold' onClick={() => setMore(true)}>showless</button>
                     }
 
-                </div>
+                </div> */}
                 <div className='border-b-[1px] flex flex-col border-gray-200 shadow-sm border-r-[1px] '>
                     <h1 className='mx-4 m-4 font-bold'>Brand</h1>
 

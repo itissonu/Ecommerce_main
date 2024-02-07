@@ -76,9 +76,9 @@ export const cartSlice = createSlice({
                 state.error = action.error.message;
                 state.success = false;
                 state.message = "problem in getting the product" || "Internal error ";
-                if (state.success === false) {
-                    toast.error(action.error.message)
-                }
+                // if (state.success === false) {
+                //     toast.error(action.error.message)
+                // }
             })
             .addCase(AddcartsProduct.pending, (state) => {
                 state.loading = true;
@@ -101,9 +101,9 @@ export const cartSlice = createSlice({
                     state.error = action.error.message;
                     state.success = false;
                     state.message = "problem in adding the product" || "Internal error ";
-                    if (state.success === false) {
-                        toast.error(action.error.message)
-                    }
+                    // if (state.success === false) {
+                    //     toast.error(action.error.message)
+                    // }
                 })
                 .addCase(deletecartProduct.pending, (state) => {
                     state.loading = true;
@@ -128,9 +128,9 @@ export const cartSlice = createSlice({
                         state.error = action.error.message;
                         state.success = false;
                         state.message = "problem in getting the product" || "Internal error ";
-                        if (state.success === false) {
-                            toast.error(action.error.message)
-                        }
+                        // if (state.success === false) {
+                        //     toast.error(action.error.message)
+                        // }
                     })
                     .addCase(updatecartProduct.pending, (state) => {
                         state.loading = true;
@@ -155,9 +155,9 @@ export const cartSlice = createSlice({
                             state.error = action.error.message;
                             state.success = false;
                             state.message = "problem in getting the product" || "Internal error ";
-                            if (state.success === false) {
-                                toast.error(action.error.message)
-                            }
+                            // if (state.success === false) {
+                            //     toast.error(action.error.message)
+                            // }
                         })
                 
             .addDefaultCase((state) => state);

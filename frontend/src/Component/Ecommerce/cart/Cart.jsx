@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cartsGetAllProducts, deletecartProduct, updatecartProduct } from '../../../redux_toolkit/cartSlice';
 import { Cartloader } from '../../../utils/Cartloader';
 import { AddWishlistGProduct } from '../../../redux_toolkit/wishlistSlice';
+import noproduct from '../../../photos/oops.svg'
 export const Cart = () => {
 
 
@@ -106,6 +107,11 @@ export const Cart = () => {
     let deliveryfee;
     let discountmrp;
     let totalmrp;
+    const storedUserData = localStorage.getItem('user');
+    if (!storedUserData) {
+        // 
+        navigate('/login')
+      }
     if (products.length !== 0) {
         discountmrp = products.reduce((acc, productitm) => acc + productitm.FinalPrice * productitm.quantity, 0);
 
@@ -121,7 +127,7 @@ export const Cart = () => {
                     <div className='w-full h-20 bg-white  border-gray-500  z-20   shadow-xl '>
                         <div className='flex h-full items-center'>
                             <div className='flex items-center justify-center mx-3 p-2 hover:cursor-pointer'>
-                                <span className='text-xl'>Ecommerce.</span>
+                                <span  onClick={()=>navigate('/')}  className='text-xl'>Ecommerce.</span>
                             </div>
                         </div>
                     </div>
@@ -129,8 +135,12 @@ export const Cart = () => {
                 <div className='w-full h-20 mt-20 '>
                     <Progress />
                 </div>
-                <div className='flex justify-center items-center h-screen'>
-                    please login for this action
+                <div className='flex justify-center items-center h-screen w-full'>
+                    <div className='h-screen w-full justify-center items-center flex flex-col'>
+                        <img className='h-[60%] w-[60%]' src={noproduct} />
+                        <span className='text-2xl font-mono font-bold m-5'> ⚠️ Hey Your Cart is empty😢😢😢 </span>
+                        <span className='text-xl font-mono m-1'> please consider to buy some products  </span>
+                    </div>
                 </div>
                 <Footer />
 

@@ -71,19 +71,22 @@ const getallproducts = asyncawaitError(async (req, res, next) => {
     }
 
     if (req.query.search) {
+        const searchArray = req.query.search.split(',');
+        const searchRegexArray = searchArray.map(search => new RegExp(search, 'i'));
+       // query.search = { $in: searchRegexArray };
         const searchRegex = new RegExp(req.query.search, 'i'); 
         const categoryRegex = new RegExp(`^${req.query.search}$`, 'i'); //regexp - no need to filter/match texts i for case insens.
         query.$or = [           //or means either of this is true
-            { name: searchRegex },
-            
-            { colors: searchRegex },
-            { brand: searchRegex },
-            { category: categoryRegex }
+        { name: { $in: searchRegexArray } },
+        { tags: { $in: searchRegexArray } },
+        { colors: { $in: searchRegexArray } },
+        { brand: { $in: searchRegexArray } },
+        { category: { $in: [categoryRegex] } }
         ];
     }
     // Pagination
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 15;
+    const limit = parseInt(req.query.limit) || 12;
     const skip = (page - 1) * limit;
 
     

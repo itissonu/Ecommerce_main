@@ -387,7 +387,7 @@ export const MyOrders = () => {
                                                 <span className=' text-gray-500 text-xs block'>Delevry fee Rs.₹ {order.shippingPrice === 0 ? 'Free' : order.shippingPrice}</span>
                                                 <span className=' text-gray-500 text-xs block'> {''} Tax(includes GST)-₹{order.taxPrice}</span>
 
-                                                <span className='  text-gray-500 font-semibold block'> Ordered at- {order.createdAt}</span>
+                                                <span className='  text-gray-500 font-semibold block'> Ordered at-  {new Date(order.createdAt).toLocaleString()}</span>
                                             </div>
 
                                         </div>

@@ -9,6 +9,8 @@ import { ToastContainer } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddWishlistGProduct, WishlistGetAllProducts, deleteWishlistProduct } from '../../../redux_toolkit/wishlistSlice';
 import { Loaderproduct } from '../Loaderproduct';
+import noproduct from '../../../photos/noproduct.svg'
+import Wishlistnotif from '../Modals/Wishlistnotif';
 
 function ProductContainer({ products }) {
     const navigate = useNavigate();
@@ -16,48 +18,47 @@ function ProductContainer({ products }) {
     const [animateHeart, setAnimateHeart] = useState(false);
     const storedUserData = localStorage.getItem('user');
     const userData = storedUserData ? JSON.parse(storedUserData) : null;
-    
+
     let wishliststate = useSelector((state) => state.wishlistproducts)
     const dispatch = useDispatch();
 
     useEffect(() => {
         const calldispatch = async () => {
-            if(userData)
-            await dispatch(WishlistGetAllProducts())
+            if (userData)
+                await dispatch(WishlistGetAllProducts())
         }
         calldispatch()
-    }, [dispatch,wishliststate?.wishproducts?.length]);
+    }, [dispatch, wishliststate?.wishproducts?.length]);
 
     const wishlist = wishliststate.wishproducts;
-    
-    const handleHeartIconClick = async (ProductId, FinalPrice) => {
-      
+
+    const handleHeartIconClick = async (ProductId, FinalPrice, imageurl) => {
+
         const body = { ProductId, FinalPrice }
         await dispatch(AddWishlistGProduct(body))
-        
-        if(!userData){
+
+        if (!userData) {
             navigate('/login')
         }
-        setAnimateHeart(true); 
+        setAnimateHeart(true);
         setTimeout(() => {
-            setAnimateHeart(false); 
+            setAnimateHeart(false);
         }, 1000);
     }
 
-    const handleHeartIconClickdelete = async (ProductId) => {     
+    const handleHeartIconClickdelete = async (ProductId) => {
         await dispatch(deleteWishlistProduct(ProductId));
-        setAnimateHeart(true); 
-        setTimeout(() => {
-            setAnimateHeart(false); 
-        }, 2000);
+
+
     }
-    
+
     const isProductInWishlist = (ProductId) => {
         return wishlist.some((item) => item?.ProductId?._id === ProductId);
     };
 
     return (
         <div className='w-full h-full flex flex-col '>
+            {animateHeart && <Wishlistnotif className='' />}
             <ToastContainer position="top-right"
                 autoClose={5000}
                 hideProgressBar={false}
@@ -68,11 +69,14 @@ function ProductContainer({ products }) {
                 draggable
                 pauseOnHover
                 theme="light" />
-       
+
             <div className='w-full h-full flex flex-wrap gap-3'>
-                {products?.length===0? <div className='flex justify-center items-center h-screen'>
-               <div> please login for this action</div>
-            </div>:products?.map((product, id) => (
+                {products?.length === 0 ? <div className='flex justify-center items-center h-screen w-full'>
+                    <div className='h-screen w-full justify-center items-center flex flex-col'>
+                        <img className='h-[60%] w-[60%]' src={noproduct} />
+                        <span className='text-2xl font-mono font-bold m-5'> Hey No product found........</span>
+                    </div>
+                </div> : products?.map((product, id) => (
                     <div onClick={() => navigate(`/user/singleProduct/${product._id}`)} onMouseOver={() => setHoveredProduct(id)}
                         onMouseOut={() => setHoveredProduct(null)} className='w-[19rem] h-[470px]  justify-center m-2 shadow-xl items-center flex flex-col ' key={id} >
 
@@ -80,17 +84,16 @@ function ProductContainer({ products }) {
                             {!(hoveredProduct === id) && <span className={`text-xs border-1 border-gray-400 bg-gray-700 text-white p-1 absolute top-5 left-0 shadow-md transform transition-transform translate-x-4`}>
                                 {product.brand}
                             </span>}
-                            
+
                             {wishlist.length === 0 ? <FaRegHeart className='absolute  top-5 right-5 h-5 text-blue-500 w-5 hover:cursor-pointer' onClick={(e) => {
                                 e.stopPropagation();
                                 handleHeartIconClick(product._id, product.price);
                             }} /> : <>{(isProductInWishlist(product._id)) ? <FaHeart onClick={(e) => {
                                 e.stopPropagation();
                                 handleHeartIconClickdelete(product._id);
-                            }} className={`absolute  top-6 right-5 h-5 text-[#117a7a] w-5 hover:cursor-pointer ${
-                                animateHeart ? 'animate-pulse': ''}`}/> : <FaRegHeart className='absolute  top-5 right-5 h-5  w-5 hover:cursor-pointer' onClick={(e) => {
+                            }} className={`absolute  top-6 right-5 h-5 text-[#117a7a] w-5 hover:cursor-pointer animate-pulse`} /> : <FaRegHeart className='absolute  top-5 right-5 h-5  w-5 hover:cursor-pointer' onClick={(e) => {
                                 e.stopPropagation();
-                                handleHeartIconClick(product._id, product.price);
+                                handleHeartIconClick(product._id, product.price, product.images[0].url);
                             }} />}</>}
 
                             <span className='absolute bottom-[26px] right-7 flex  bg-slate-100 items-center  p-1 font-mono text-[12px] '>4.4<IoStar className='h-3 m-1 w-3 text-[#117a7a]' /></span>
@@ -117,15 +120,7 @@ function ProductContainer({ products }) {
                 }
 
             </div>
-            <div className='w-full h-full p-6 flex item-center border-t-[1px] border-gray-300 mt-6'>
-                <div className='flex w-[80%] h-max p-2 justify-center items-center gap-2'>
-                    <button className='font-bold text-base p-4 border-[1px] border-[#e93d67] text-[#e93d67] h-max'>1</button>
-                    <button className='font-bold text-base p-4 border-[1px] border-[#e93d67] text-[#e93d67] h-max'>2</button>
-                    <button className='font-bold text-base p-4 border-[1px] border-[#e93d67] text-[#e93d67] h-max'>3</button>
-                    <button className='font-bold text-base p-4 border-[1px] border-[#e93d67] text-[#e93d67] h-max'>4</button>
-                </div>
-                <button className='font-bold text-base p-4 border-[1px] border-[#e93d67] text-[#e93d67] h-max'>Next</button>
-            </div>
+            
         </div>
     )
 }

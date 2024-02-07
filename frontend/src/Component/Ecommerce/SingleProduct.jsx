@@ -12,6 +12,9 @@ import { GetAProduct } from "../../redux_toolkit/productSlice";
 import { Loaderproduct } from "./Loaderproduct";
 import { AddcartsProduct, cartsGetAllProducts } from "../../redux_toolkit/cartSlice";
 import { AddWishlistGProduct } from "../../redux_toolkit/wishlistSlice";
+import Productloader from "../../utils/Productloader";
+import Wishlistnotif from "./Modals/Wishlistnotif";
+import ProductBagged from "./Modals/ProductBagged";
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -19,16 +22,18 @@ const SingleProduct = () => {
   const [error, seterror] = useState(false)
   const [size, setSelectsize] = useState('');
   const [selectedQuantity, setSelectedQuantity] = useState(1);
-  const[cartstatus,setCartStatus]=useState(false);
-  const[wishstatus,setwishStatus]=useState(false);
+  const [cartstatus, setCartStatus] = useState(false);
+  const [wishstatus, setwishStatus] = useState(false);
+  const [animateHeart, setAnimateHeart] = useState(false);
+  const[cartAdd,setaddCart]=useState(false)
 
   const navigate = useNavigate()
   const cartstate = useSelector((state) => state.cartproducts);
   const productstate = useSelector((state) => state.allproducts);
-  const wishliststate = useSelector((state) => state.wishlistproducts)||[];
+  const wishliststate = useSelector((state) => state.wishlistproducts) || [];
   const dispatch = useDispatch();
 
- 
+
   useEffect(() => {
     // const fetchProducts = async() => {
     //    dispatch(cartsGetAllProducts());
@@ -41,21 +46,21 @@ const SingleProduct = () => {
     // getProducts()
     const fetchData = async () => {
       try {
-        
+
         await dispatch(GetAProduct(id));
         await dispatch(cartsGetAllProducts());
         await dispatch(cartsGetAllProducts());
-        
+
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
-        setLoading(false); 
+        setLoading(false);
       }
     };
-  
+
     fetchData();
-  
-  }, [id]);
+
+  }, [id, wishliststate?.wishproducts?.length]);
 
 
   const handleAdd = async () => {
@@ -65,11 +70,19 @@ const SingleProduct = () => {
       const price = ((product.price) - (product?.price) * (product?.discount / 100)).toFixed(0)
       const data = { ProductId: id, quantity: selectedQuantity, FinalPrice: price, size: size }
       await dispatch(AddcartsProduct(data));
+      setaddCart(true);
+      setTimeout(() => {
+        setaddCart(false);
+      }, 1000);
     }
   }
   const handleAddwish = async () => {
     const body = { ProductId: id, FinalPrice: product?.price }
     await dispatch(AddWishlistGProduct(body))
+    setAnimateHeart(true);
+    setTimeout(() => {
+      setAnimateHeart(false);
+    }, 1000);
   }
 
   const product = productstate?.singleProduct;
@@ -83,8 +96,8 @@ const SingleProduct = () => {
   for (let i = startValue; i <= endValue; i++) {
     newArray.push(i);
   }
-  
- 
+
+
 
   // if (cartstate?.cartProducts?.length !== 0) {
 
@@ -110,10 +123,10 @@ const SingleProduct = () => {
       );
     };
 
-  
+
     if (isProductIncart(id))
       setCartStatus(true);
-      if (isProductInwishlist(id))
+    if (isProductInwishlist(id))
       setwishStatus(true);
 
   }, [cartstate?.cartProducts, id]);
@@ -126,6 +139,9 @@ const SingleProduct = () => {
   const sizeOptions = ['S', 'M', 'L', 'XS', 'XL'];
   return (
     <div className="lg:flex flex flex-col ">
+      {wishliststate.loading && <Productloader />}
+      {animateHeart && <Wishlistnotif className='' />}
+      {cartAdd && <ProductBagged/>}
       <Header />
       {(loading) ? <Loaderproduct /> :
         <div className="flex  mt-[7rem]">
@@ -191,8 +207,8 @@ const SingleProduct = () => {
                 {sizeOptions.map((sz, i) => (
                   product?.size.includes(sz) ? (
                     <span onClick={() => setSelectsize(sz)} key={i} className={`h-10 rounded-2xl ${size === sz
-                        ? 'bg-gray-300  border-2 border-[#117a7a] '
-                        : 'bg-gray-300 '
+                      ? 'bg-gray-300  border-2 border-[#117a7a] '
+                      : 'bg-gray-300 '
                       } w-14 hover:cursor-pointer items-center flex justify-center`}>
                       {sz}
                     </span>
@@ -220,20 +236,20 @@ const SingleProduct = () => {
               </div>
             </div>
             <div className="flex justify-center items-center h-16 my-3 gap-4 mt-5">
-            {cartstatus ? <button onClick={()=>navigate('/user/cart')} className=" w-1/2 rounded-md py-3 bg-[#ec3d25] hover:bg-[#fb641b]  hover:text-xl text-white text-lg font-bold ">
+              {cartstatus ? <button onClick={() => navigate('/user/cart')} className=" w-1/2 rounded-md py-3 bg-[#ec3d25] hover:bg-[#fb641b]  hover:text-xl text-white text-lg font-bold ">
                 <span className="mr-1 xs:mr-3 ">GO TO BAG{'->'}</span>
                 <TiShoppingCart size={30} className="inline-flex" />
-              </button>: <button onClick={handleAdd} className=" w-1/2 rounded-md py-3 bg-[#ec3d25] hover:bg-[#fb641b]  hover:text-xl text-white text-lg font-bold ">
+              </button> : <button onClick={handleAdd} className=" w-1/2 rounded-md py-3 bg-[#ec3d25] hover:bg-[#fb641b]  hover:text-xl text-white text-lg font-bold ">
                 <span className="mr-1 xs:mr-3 ">ADD TO BAG</span>
                 <TiShoppingCart size={30} className="inline-flex" />
-              </button>}  
-           {wishstatus ?<button className="w-1/2 rounded-md py-3 text-black bg-gray-400  text-xl border-2">
+              </button>}
+              {wishstatus ? <button className="w-1/2 rounded-md py-3 text-black bg-gray-200  text-xl border-2">
                 <span className="mr-3 text-[#14abcf]">Wishlisted </span>
-                <IoIosHeartEmpty size={30} className="inline-flex text-red-400" />
-              </button>:<button onClick={handleAddwish} className="w-1/2 rounded-md py-3 text-black  text-xl border-2">
+                <IoIosHeartEmpty size={30} className="inline-flex text-blue-400" />
+              </button> : <button onClick={handleAddwish} className="w-1/2 rounded-md py-3 text-black  text-xl border-2">
                 <span className="mr-3 text-[#14abcf]">Wishlist</span>
                 <IoIosHeartEmpty size={30} className="inline-flex " />
-              </button>}   
+              </button>}
             </div>
 
             <div>
