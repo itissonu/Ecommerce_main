@@ -9,17 +9,17 @@ import Shirts from '../../photos/shirt.png'
 import Jeans from '../../photos/jeans.png'
 import Sweaters from '../../photos/ugly-sweater.png'
 import Jackets from '../../photos/denim-jacket.png'
-const CustomPrevArrow = (props) => (
+const CustomPrevArrow = ({ onClick }) => (
     <div className=' w-max rounded-[100%] bg-[hsla(0,0%,100%,.4)] flex justify-center items-center'>
-        <button {...props} className="h-20 w-20 text-7xl   text-gray-400  mb-[18px] rounded-full  items-center justify-center ">
+        <button onClick={onClick} className="h-20 w-20 text-7xl   text-gray-400  mb-[18px] rounded-full  items-center justify-center ">
             {'<'}
         </button>
     </div>
 );
 
-const CustomNextArrow = (props) => (
+const CustomNextArrow = ({ onClick }) => (
     <div className=' w-max rounded-[100%] bg-[hsla(0,0%,100%,.4)] flex justify-center items-center'>
-        <button {...props} className=" h-20 w-20 text-7xl  text-gray-400  mb-[18px] rounded-full  items-center justify-center">
+        <button onClick={onClick} className=" h-20 w-20 text-7xl  text-gray-400  mb-[18px] rounded-full  items-center justify-center">
             {'>'}
         </button>
     </div>

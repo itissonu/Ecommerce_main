@@ -15,11 +15,6 @@ const cartSchema=mongoose.Schema({
         type:Number,
         default:1,
     },
-    color:{
-        type:String,
-        default:null,
-
-    },
     size:{
         type:String,
         required:true,

@@ -26,10 +26,10 @@ const CardCarousel = ({img}) => {
 
     return (
         <div className='carousel-container' >
-        <Slider {...settings} className='!flex z-9 !flex-row !justify-center !items-center h-[100%] w-[19rem] z-33 ' >
+        <Slider {...settings} className='!flex z-9 !flex-row !justify-center !items-center h-[80%] w-[19rem] z-33  p-4 ' >
         {img.map((photo,i)=>(
-            <div key={photo.id} className='!flex justify-center items-center !flex-row'>
-            <img className=' h-[289px] rounded-[0.75rem] w-[287px]' src={photo.url} />{console.log(photo.url)}
+            <div key={i} className='!flex justify-center items-center !flex-row'>
+            <img className=' h-[280px]  w-[280px]' src={photo.url} />
             
 
             </div>

@@ -8,6 +8,8 @@ const userRoute=require('../Backend/routes/userRoutes.js')
 const productRoute=require('../Backend/routes/productRoutes.js');
 const cartRoute=require('../Backend/routes/cartRoutes.js');
 const orderRoute=require('../Backend/routes/orderRoutes.js');
+const wishlistRoute=require('../Backend/routes/wishlistRoutes.js');
+
 const variousError = require("./middlewear/variousError.js");
 
 const connectToDatabase = async () => {
@@ -33,6 +35,8 @@ app.use("/app/user",userRoute)
 app.use("/app/product",productRoute)
 app.use("/app/cart",cartRoute)
 app.use("/app/order",orderRoute)
+app.use("/app/wishlist",wishlistRoute)
+
 app.use(variousError)
 app.listen(8001,()=>{
     connectToDatabase()

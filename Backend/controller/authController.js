@@ -21,7 +21,7 @@ const userRegistration = asyncawaitError(async (req, res, next) => {
 
     const token = await generateAuthToken(newUser);
     res.cookie("token", token, {
-        expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         httpOnly: true,
         secure: true,         // Set to true when using HTTPS
     sameSite: 'None',
@@ -51,12 +51,13 @@ const userLogin = asyncawaitError(async (req, res, next) => {
     }
     const token = await generateAuthToken(user);
     res.cookie("token", token, {
-        expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         httpOnly: true,
         secure: true,         // Set to true when using HTTPS
     sameSite: 'None',
     }).status(200).json({
         success: true,
+        user,
         role: user.role,
         message: "login success", token,
     })
@@ -133,7 +134,7 @@ const resetPassword = asyncawaitError(async (req, res, next) => {
     await user.save()
     const token = await generateAuthToken(user);
     res.cookie("token", token, {
-        expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         httpOnly: true,
         secure: true,         // Set to true when using HTTPS
     sameSite: 'None',

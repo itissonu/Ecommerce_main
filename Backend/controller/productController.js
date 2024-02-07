@@ -25,12 +25,18 @@ const getallproducts = asyncawaitError(async (req, res, next) => {
     let query = {};
 
 
+    // if (req.query.category) {
+    //     const categoriesArray = req.query.category.split(',');
+    //     const categoriesRegexArray = categoriesArray.map(category => new RegExp(category, 'i'));
+    //     query.category = { $in: categoriesRegexArray };
+        
+    // }
     if (req.query.category) {
         const categoriesArray = req.query.category.split(',');
-        const categoriesRegexArray = categoriesArray.map(category => new RegExp(category, 'i'));
+        const categoriesRegexArray = categoriesArray.map(category => new RegExp(`^${category}$`, 'i'));
         query.category = { $in: categoriesRegexArray };
-        
     }
+    
 
     if (req.query.size) {
         const sizesArray = req.query.size.split(',');
@@ -65,29 +71,41 @@ const getallproducts = asyncawaitError(async (req, res, next) => {
     }
 
     if (req.query.search) {
-        const searchRegex = new RegExp(req.query.search, 'i');  //regexp - no need to filter/match texts i for case insens.
+        const searchArray = req.query.search.split(',');
+        const searchRegexArray = searchArray.map(search => new RegExp(search, 'i'));
+       // query.search = { $in: searchRegexArray };
+        const searchRegex = new RegExp(req.query.search, 'i'); 
+        const categoryRegex = new RegExp(`^${req.query.search}$`, 'i'); //regexp - no need to filter/match texts i for case insens.
         query.$or = [           //or means either of this is true
-            { name: searchRegex },
-            { description: searchRegex },
-            { colors: searchRegex },
-            { brand: searchRegex },
-            { category: searchRegex }
+        { name: { $in: searchRegexArray } },
+        { tags: { $in: searchRegexArray } },
+        { colors: { $in: searchRegexArray } },
+        { brand: { $in: searchRegexArray } },
+        { category: { $in: [categoryRegex] } }
         ];
     }
     // Pagination
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const limit = parseInt(req.query.limit) || 12;
     const skip = (page - 1) * limit;
 
-    //console.log(query)
+    
     const products = await Product.find(query).skip(skip)
         .limit(limit);;
 
     if (products.length === 0) {
-        return next(new createError("no such product found", 401))
+       // return next(new createError("no such product found", 401))
+    return   res.status(200).json({
+        success:true,
+        products
+    });
+
     }
 
-    res.status(200).json(products);
+    res.status(200).json({
+        success:true,
+        products
+    });
 
 });
 
@@ -142,15 +160,15 @@ const deleteProduct = asyncawaitError(async (req, res, next) => {
 });
 //product by id
 const getProductDetails = asyncawaitError(async (req, res, next) => {
-    let product = await Product.findById(req.params.id);
+    let products = await Product.findById(req.params.id);
 
-    if (!product) {
+    if (!products) {
         return next(new createError("product not found", 401));
     }
 
     res.status(201).json({
         success: true,
-        product,
+        products,
         message: "product found successfully"
     })
 
@@ -173,7 +191,6 @@ const createReveiw = asyncawaitError(async (req, res, next) => {
 
     const product = await Product.findById(Id);
 
-
     //checking if the product has any review which this user wants to give 
     const Reviewd = await product.ratings.find(
         (review) => {
@@ -181,7 +198,6 @@ const createReveiw = asyncawaitError(async (req, res, next) => {
             return review.user.toString() === req.user.id.toString();
         }
     );
-
 
     if (Reviewd) {
         product.ratings.forEach((rat) => {

@@ -52,7 +52,7 @@ export const AddressModal = ({ isOpen, setOpen,setAddres ,addres}) => {
                         <span className='block  text-gray-500'>Phone</span>
                         <input className=' outline-none border-2 border-slate-500 m-2 p-2 w-full' type='number' name='phoneNo' required onChange={handleChange} />
                         <span className='block  text-gray-500'>Pincode</span>
-                        <input className='outline-none  border-2 border-slate-500 m-2 p-2 w-full' maxLength={6} type='number' name='pincode' required onChange={handleChange} value={addres.pincode} />
+                        <input className='outline-none  border-2 border-slate-500 m-2 p-2 w-full' maxLength={6} type='number' name='pinCode' required onChange={handleChange} value={addres.pinCode} />
                         <div className=' items-center justify-center flex mt-3'>
                             <button type='submit' className=' align-middle w-20 hover:cursor-pointer  hover:bg-cyan-400  font-bold h-12 p-1  rounded-md bg-[#117a7a] text-amber-50 shadow-2xl' > Add</button>
                         </div>
